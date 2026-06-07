@@ -927,19 +927,47 @@ footer{
 const DEFAULT_PRODUCTS = [];
 
 // ════════════════════════════════════════
+//  GOOGLE SHEETS CONFIG
+// ════════════════════════════════════════
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyjzZF-0NLCS4Q4e_LgOp3kF7n7U3xHd6D6v_JEdA-jkgwVuiZuGpSmNstVpztsAGa7Gw/exec';
+
+// ════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════
 function loadProducts(){
   const saved = localStorage.getItem('ih_products');
-  return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+  return saved ? JSON.parse(saved) : [];
 }
 function saveProducts(prods){
-  localStorage.setItem('ih_products',JSON.stringify(prods));
+  localStorage.setItem('ih_products', JSON.stringify(prods));
+  if(SHEETS_URL) syncToSheets(prods);
+}
+async function syncToSheets(prods){
+  try{
+    await fetch(SHEETS_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'save_all',products:prods}),
+      mode:'no-cors'
+    });
+  }catch(e){console.warn('Sheets sync failed',e);}
+}
+async function loadFromSheets(){
+  if(!SHEETS_URL) return null;
+  try{
+    const res = await fetch(SHEETS_URL+'?t='+Date.now());
+    const data = await res.json();
+    if(Array.isArray(data)&&data.length){
+      localStorage.setItem('ih_products',JSON.stringify(data));
+      return data;
+    }
+    return null;
+  }catch(e){console.warn('Sheets load failed',e);return null;}
 }
 function generateId(prods){
   const nums = prods.map(p=>parseInt(p.id.replace('IH',''))||0);
   const max = nums.length ? Math.max(...nums) : 0;
-  return 'IH' + String(max+1).padStart(3,'0');
+  return 'IH'+String(max+1).padStart(3,'0');
 }
 
 let products = loadProducts();
@@ -957,12 +985,17 @@ function checkAdminMode(){
   }
 }
 
-function enterAdmin(){
+async function enterAdmin(){
   document.getElementById('admin-page').classList.add('active');
   document.getElementById('main-nav').style.display='none';
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('main-footer').style.display='none';
   document.getElementById('sticky-mobile-btn').style.display='none';
+  if(SHEETS_URL){
+    showToast('Sheets se load ho raha hai...');
+    const sheetData = await loadFromSheets();
+    if(sheetData){ products = sheetData; renderPublicSite(); }
+  }
   renderAdminList();
   updateFeaturedCounter();
 }

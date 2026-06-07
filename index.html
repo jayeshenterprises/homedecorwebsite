@@ -61,7 +61,6 @@ nav{
 /* ════════════════════════════
    HOME PAGE
 ════════════════════════════ */
-/* HERO */
 .hero{
   min-height:88vh;
   background:var(--white);
@@ -287,7 +286,6 @@ nav{
   display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
 }
 .about-pin-wrap p{font-size:14px;color:#a8a39c;line-height:1.7;max-width:380px}
-/* Affiliate disclosure — bottom of about page */
 .affiliate-disclosure{
   margin-top:48px;padding:24px 28px;
   background:#fdf8f4;border:.5px solid #e0d5c8;border-radius:3px;
@@ -303,22 +301,6 @@ nav{
 .contact-eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
 .contact-h1{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;line-height:1.2;color:var(--text-dark);margin-bottom:16px}
 .contact-desc{font-size:15px;color:var(--text-mid);line-height:1.8;margin-bottom:36px}
-.form-placeholder{
-  background:var(--white);border:.5px solid var(--warm-border);border-radius:3px;
-  overflow:hidden;min-height:520px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:16px;text-align:center;padding:40px;
-}
-.form-placeholder-icon{font-size:40px;opacity:.3;margin-bottom:8px}
-.form-placeholder h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--text-dark)}
-.form-placeholder p{font-size:13px;color:var(--text-mid);max-width:340px;line-height:1.7}
-.form-placeholder code{
-  font-size:12px;background:var(--cream);padding:6px 14px;
-  border-radius:3px;border:.5px solid var(--warm-border);
-  color:var(--accent);font-family:monospace;
-  display:block;margin-top:8px;word-break:break-all;
-}
-/* When iframe is added */
 .contact-iframe{width:100%;min-height:520px;border:none;border-radius:3px}
 
 /* ════════════════════════════
@@ -342,46 +324,293 @@ footer{
 
 /* STICKY MOBILE */
 .sticky-mobile{
-  display:none;position:fixed;bottom:0;left:0;right:0;
-  background:var(--text-dark);color:var(--white);
-  text-align:center;padding:14px;font-size:12px;
-  letter-spacing:.1em;text-transform:uppercase;
-  z-index:300;cursor:pointer;border:none;width:100%;
+  display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  z-index:300;background:var(--text-dark);color:var(--white);
+  border:none;padding:13px 28px;border-radius:28px;
+  font-size:13px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18);
+  white-space:nowrap;
+}
+@media(max-width:768px){
+  .sticky-mobile{display:block}
+  nav{padding:0 16px}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-right{display:none}
+  .hero-left{padding:48px 24px}
+  .hero-h1{font-size:38px}
+  .featured{padding:48px 20px 40px}
+  .featured-grid{grid-template-columns:repeat(2,1fr)}
+  .inspo-banner{padding:48px 20px}
+  .shop-hero{padding:32px 20px}
+  .cat-strip{padding:12px 16px}
+  .shop-body{padding:24px 16px 80px}
+  footer{padding:24px 20px}
 }
 
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr}
-  .hero-right{display:none}
-  .hero-left{padding:60px 32px}
-  .hero-h1{font-size:42px}
-  .featured{padding:48px 24px}
-  .featured-grid{grid-template-columns:repeat(2,1fr)}
-  .inspo-banner{padding:48px 24px}
-  .shop-hero{padding:36px 24px 24px}
-  .cat-strip{padding:14px 24px}
-  .shop-body{padding:28px 24px 80px}
-  .products-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-  nav{padding:0 20px}
-  .nav-tab{padding:8px 12px}
-  footer{padding:24px;flex-direction:column;text-align:center}
-  .stats-bar{gap:32px}
-  .about-values{grid-template-columns:1fr}
+/* ══════════════════════════════════════
+   ADMIN PORTAL
+══════════════════════════════════════ */
+#admin-page{
+  display:none;
+  min-height:100vh;
+  background:#0f0e0d;
+  font-family:'DM Sans',sans-serif;
 }
-@media(max-width:600px){
-  .sticky-mobile{display:block}
-  .hero-h1{font-size:34px}
-  .hero-left{padding:48px 20px 40px}
-  .inspo-banner{padding:40px 20px}
-  .inspo-text h2{font-size:28px}
-  .featured-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+#admin-page.active{display:block}
+
+.admin-topbar{
+  background:#1a1916;
+  border-bottom:1px solid #2d2a25;
+  padding:0 32px;
+  height:58px;
+  display:flex;align-items:center;justify-content:space-between;
 }
+.admin-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:500;color:#f0ebe3;letter-spacing:.06em;
+}
+.admin-brand span{color:var(--accent)}
+.admin-subtitle{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5a5650;margin-top:1px}
+.admin-exit-btn{
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:#6b6760;background:transparent;border:.5px solid #2d2a25;
+  padding:7px 16px;border-radius:2px;cursor:pointer;
+  transition:all .18s;text-decoration:none;
+}
+.admin-exit-btn:hover{color:#f0ebe3;border-color:#5a5650}
+
+.admin-layout{
+  display:grid;
+  grid-template-columns:360px 1fr;
+  min-height:calc(100vh - 58px);
+}
+
+/* LEFT PANEL — Add/Edit Form */
+.admin-form-panel{
+  background:#161512;
+  border-right:1px solid #2d2a25;
+  padding:28px 24px;
+  overflow-y:auto;
+  max-height:calc(100vh - 58px);
+  position:sticky;top:58px;
+}
+.admin-form-title{
+  font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:#f0ebe3;margin-bottom:22px;
+  display:flex;align-items:center;gap:8px;
+}
+.admin-form-title::before{
+  content:'';width:3px;height:14px;background:var(--accent);border-radius:2px;
+}
+
+.form-group{margin-bottom:18px}
+.form-label{
+  display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#6b6760;margin-bottom:6px;
+}
+.form-input,.form-select,.form-textarea{
+  width:100%;background:#1e1c19;
+  border:.5px solid #2d2a25;
+  color:#d4cdc4;font-size:13px;
+  padding:10px 12px;border-radius:2px;
+  font-family:'DM Sans',sans-serif;
+  transition:border-color .18s;
+  outline:none;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent)}
+.form-input::placeholder,.form-textarea::placeholder{color:#3d3a34}
+.form-select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a5650' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.form-select option{background:#1e1c19}
+.form-textarea{min-height:80px;resize:vertical}
+
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;background:#1a1916;border:.5px solid #2d2a25;border-radius:2px;
+}
+.toggle-label{font-size:12px;color:#a8a39c;line-height:1.4}
+.toggle-label small{display:block;font-size:10px;color:#5a5650;margin-top:2px;letter-spacing:.06em}
+.toggle-switch{
+  position:relative;width:40px;height:22px;flex-shrink:0;
+}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-track{
+  position:absolute;inset:0;
+  background:#2d2a25;border-radius:22px;cursor:pointer;
+  transition:background .2s;
+}
+.toggle-track::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:16px;height:16px;background:#6b6760;
+  border-radius:50%;transition:all .2s;
+}
+.toggle-switch input:checked + .toggle-track{background:var(--accent)}
+.toggle-switch input:checked + .toggle-track::after{transform:translateX(18px);background:#fff}
+
+.admin-btn-primary{
+  width:100%;padding:12px;background:var(--accent);color:#fff;
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  border:none;border-radius:2px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-weight:500;
+  transition:background .18s;margin-top:4px;
+}
+.admin-btn-primary:hover{background:#9a6c3e}
+.admin-btn-secondary{
+  width:100%;padding:11px;background:transparent;color:#6b6760;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border:.5px solid #2d2a25;border-radius:2px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:all .18s;margin-top:8px;
+}
+.admin-btn-secondary:hover{color:#d4cdc4;border-color:#5a5650}
+
+.featured-counter{
+  margin-top:10px;padding:10px 12px;
+  background:#1a1916;border:.5px solid #2d2a25;border-radius:2px;
+  font-size:11px;color:#6b6760;text-align:center;letter-spacing:.06em;
+}
+.featured-counter strong{color:var(--accent)}
+
+/* RIGHT PANEL — Products List */
+.admin-products-panel{
+  padding:28px 28px 60px;
+  overflow-y:auto;
+}
+.admin-products-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;flex-wrap:wrap;gap:12px;
+}
+.admin-products-title{
+  font-size:14px;font-weight:500;color:#f0ebe3;letter-spacing:.04em;
+}
+.admin-search{
+  background:#161512;border:.5px solid #2d2a25;
+  color:#d4cdc4;font-size:12px;padding:8px 14px;
+  border-radius:2px;width:220px;outline:none;
+  font-family:'DM Sans',sans-serif;transition:border-color .18s;
+}
+.admin-search:focus{border-color:var(--accent)}
+.admin-search::placeholder{color:#3d3a34}
+
+.admin-stats-row{
+  display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;
+}
+.admin-stat-chip{
+  padding:8px 16px;background:#161512;
+  border:.5px solid #2d2a25;border-radius:2px;
+  font-size:11px;color:#6b6760;letter-spacing:.08em;
+}
+.admin-stat-chip strong{color:var(--accent);font-weight:500}
+
+.product-list{display:flex;flex-direction:column;gap:10px}
+
+.product-row{
+  background:#161512;border:.5px solid #2d2a25;border-radius:2px;
+  padding:14px 16px;
+  display:grid;
+  grid-template-columns:48px 1fr auto;
+  align-items:center;gap:14px;
+  transition:border-color .18s;
+}
+.product-row:hover{border-color:#3d3a34}
+.product-row.featured-row{border-color:rgba(176,125,78,.4);background:#1a1714}
+
+.product-thumb{
+  width:48px;height:48px;border-radius:2px;
+  object-fit:cover;background:#2d2a25;
+  border:.5px solid #2d2a25;
+}
+.product-thumb-placeholder{
+  width:48px;height:48px;border-radius:2px;
+  background:#2d2a25;border:.5px solid #2d2a25;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;opacity:.4;
+}
+
+.product-info{min-width:0}
+.product-row-name{
+  font-size:13px;font-weight:500;color:#d4cdc4;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom:4px;
+}
+.product-row-meta{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.product-row-cat{
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);
+}
+.product-row-id{
+  font-size:10px;color:#3d3a34;font-family:monospace;letter-spacing:.06em;
+}
+.featured-badge-small{
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(176,125,78,.15);color:var(--accent);
+  border:.5px solid rgba(176,125,78,.3);
+  padding:2px 7px;border-radius:2px;
+}
+
+.product-row-actions{
+  display:flex;align-items:center;gap:6px;flex-shrink:0;
+}
+.btn-icon{
+  width:30px;height:30px;border-radius:2px;border:.5px solid #2d2a25;
+  background:transparent;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;font-size:12px;
+}
+.btn-icon:hover{background:#2d2a25;border-color:#5a5650}
+.btn-icon.copy-btn:hover{background:rgba(176,125,78,.15);border-color:rgba(176,125,78,.4)}
+.btn-icon.edit-btn:hover{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3)}
+.btn-icon.delete-btn:hover{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3)}
+
+.pin-link-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--pin-red);background:rgba(230,0,35,.08);
+  border:.5px solid rgba(230,0,35,.2);
+  padding:5px 10px;border-radius:2px;cursor:pointer;
+  text-decoration:none;transition:all .18s;white-space:nowrap;
+}
+.pin-link-btn:hover{background:rgba(230,0,35,.15)}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#1a1916;border:.5px solid var(--accent);
+  color:#d4cdc4;font-size:12px;letter-spacing:.06em;
+  padding:10px 20px;border-radius:2px;z-index:9999;
+  transition:transform .3s;pointer-events:none;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Modal overlay for edit */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(4px);
+  z-index:500;align-items:center;justify-content:center;
+}
+.modal-overlay.active{display:flex}
+.modal-box{
+  background:#161512;border:.5px solid #2d2a25;border-radius:3px;
+  padding:28px;width:90%;max-width:480px;max-height:90vh;overflow-y:auto;
+}
+.modal-title{
+  font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:#f0ebe3;margin-bottom:22px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.modal-close{
+  background:transparent;border:.5px solid #2d2a25;color:#6b6760;
+  width:28px;height:28px;border-radius:2px;cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;
+}
+.modal-close:hover{color:#f0ebe3;border-color:#5a5650}
 </style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
-<nav>
+<!-- ══ MAIN SITE NAV (hidden in admin) ══ -->
+<nav id="main-nav">
   <a class="nav-logo" href="#" onclick="showPage('home')">Ivory <span>Home</span></a>
   <div class="nav-center">
     <button class="nav-tab active" id="tab-home" onclick="showPage('home')">Home</button>
@@ -403,96 +632,49 @@ footer{
 <div id="page-home" class="page active">
 
   <!-- HERO -->
-  <section class="hero">
+  <div class="hero">
     <div class="hero-left">
-      <div class="hero-tag">Curated Home Finds</div>
-      <h1 class="hero-h1">Style Your Home<br>with <em>Intention</em></h1>
-      <p class="hero-desc">Every piece here is personally chosen — beautiful objects that transform everyday spaces into something worth coming home to.</p>
+      <div class="hero-tag">Curated Home Decor</div>
+      <h1 class="hero-h1">Make Your Home<br>Feel <em>Beautiful</em></h1>
+      <p class="hero-desc">Handpicked pieces that transform any space — minimal, warm, and always beautiful. Every product here is personally chosen.</p>
       <div class="hero-actions">
-        <button class="btn-dark" onclick="showPage('shop')">Explore the Shop</button>
-        <a class="btn-ghost" href="https://in.pinterest.com/ivoryhomeco/" target="_blank" rel="noopener">Follow on Pinterest</a>
+        <button class="btn-dark" onclick="showPage('shop')">Shop All Picks</button>
+        <a class="btn-ghost" href="https://in.pinterest.com/ivoryhomeco/" target="_blank" rel="noopener">Pinterest →</a>
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-grid">
-        <div class="hero-img-cell">
-          <img src="https://i.ibb.co/5xGWyFtD/1000039616.png" alt="Vase"/>
-        </div>
-        <div class="hero-img-cell">
-          <img src="https://i.ibb.co/hR60Ypsc/1000039621.png" alt="Candle"/>
-        </div>
-        <div class="hero-img-cell">
-          <img src="https://i.ibb.co/KxYsH0Ts/1000039633.png" alt="Mirror"/>
-        </div>
-        <div class="hero-img-cell">
-          <img src="https://i.ibb.co/QFhXqDGg/1000039779.png" alt="Decor"/>
-        </div>
+      <div class="hero-grid" id="hero-grid">
+        <!-- Filled dynamically from featured products -->
       </div>
     </div>
-  </section>
-
-  <!-- STATS -->
-  <div class="stats-bar">
-    <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Curated Picks</div></div>
-    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Categories</div></div>
-    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Handpicked</div></div>
-    <div class="stat"><div class="stat-num">✦</div><div class="stat-label">Pinterest Curated</div></div>
   </div>
 
-  <!-- FEATURED PRODUCTS (4 highlighted) -->
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-num" id="stat-products">14</div>
+      <div class="stat-label">Curated Picks</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">✦</div>
+      <div class="stat-label">Pinterest Inspired</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Honest Picks</div>
+    </div>
+  </div>
+
+  <!-- FEATURED SECTION -->
   <section class="featured">
-    <div class="section-eyebrow">✦ Editor's Picks</div>
-    <div class="section-heading">Pieces I'm Loving<br>Right Now</div>
-    <div class="featured-grid">
-
-      <div class="feat-card">
-        <div class="feat-img" style="background:#f1ede4">
-          <img src="https://i.ibb.co/5xGWyFtD/1000039616.png" alt="Snuggle Hollow Ceramic Vase"/>
-          <span class="feat-badge">Vases</span>
-        </div>
-        <div class="feat-body">
-          <div class="feat-cat">Vases</div>
-          <div class="feat-name">Snuggle Hollow Ceramic Vase</div>
-          <a class="feat-btn" href="https://amzn.to/3PoCfog" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="feat-card">
-        <div class="feat-img" style="background:#fbeaf0">
-          <img src="https://i.ibb.co/hR60Ypsc/1000039621.png" alt="MOZEAL Hand-Poured Candle"/>
-          <span class="feat-badge">Candles</span>
-        </div>
-        <div class="feat-body">
-          <div class="feat-cat">Candles</div>
-          <div class="feat-name">MOZEAL Hand-Poured Unscented Candle</div>
-          <a class="feat-btn" href="https://amzn.to/3Q5NcLB" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="feat-card">
-        <div class="feat-img" style="background:#e8eae3">
-          <img src="https://i.ibb.co/KxYsH0Ts/1000039633.png" alt="BEAUTYPEAK Arch Mirror"/>
-          <span class="feat-badge">Mirrors</span>
-        </div>
-        <div class="feat-body">
-          <div class="feat-cat">Mirrors</div>
-          <div class="feat-name">BEAUTYPEAK Arch Bathroom Mirror</div>
-          <a class="feat-btn" href="https://amzn.to/4nPwHQ9" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="feat-card">
-        <div class="feat-img" style="background:#f4f0ea">
-          <img src="https://i.ibb.co/QFhXqDGg/1000039779.png" alt="Thinker Small Statue"/>
-          <span class="feat-badge">Decor</span>
-        </div>
-        <div class="feat-body">
-          <div class="feat-cat">Decor Objects</div>
-          <div class="feat-name">3 Pcs Thinker Small Statue Set</div>
-          <a class="feat-btn" href="https://amzn.to/3RyI8Qi" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
+    <div class="section-eyebrow">✦ Hand Selected</div>
+    <h2 class="section-heading">Editor's Favourites</h2>
+    <div class="featured-grid" id="featured-grid">
+      <!-- Filled dynamically -->
     </div>
     <div class="view-all-wrap">
       <button class="btn-ghost" onclick="showPage('shop')">View All Products →</button>
@@ -520,12 +702,10 @@ footer{
      SHOP PAGE
 ══════════════════════════ -->
 <div id="page-shop" class="page">
-
   <div class="shop-hero">
     <h1>Shop All Picks</h1>
     <p>Every product below is personally curated — click to shop on Amazon.</p>
   </div>
-
   <div class="cat-strip">
     <button class="cat-pill active" onclick="filterCat('all',this)">All</button>
     <button class="cat-pill" onclick="filterCat('vases',this)">Vases</button>
@@ -533,176 +713,12 @@ footer{
     <button class="cat-pill" onclick="filterCat('mirrors',this)">Mirrors</button>
     <button class="cat-pill" onclick="filterCat('decor',this)">Decor Objects</button>
   </div>
-
   <div class="shop-body">
     <div class="products-grid" id="shop-grid">
-
-      <!-- ─── VASES ─── -->
-      <div class="prod-card" data-cat="vases">
-        <div class="prod-img" style="background:#f1ede4">
-          <img src="https://i.ibb.co/5xGWyFtD/1000039616.png" alt="Snuggle Hollow Ceramic Vase"/>
-          <span class="prod-badge">Vases</span>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Vases</div>
-          <div class="prod-name">Snuggle Hollow Ceramic Vase</div>
-          <a class="shop-btn" href="https://amzn.to/3PoCfog" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="vases">
-        <div class="prod-img" style="background:#f5f0e8">
-          <img src="https://i.ibb.co/MxQjvDtB/1000039612.png" alt="Beige Ceramic Vase Set"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Vases</div>
-          <div class="prod-name">Beige Ceramic Vase Set — 4 Small Unique Flower Vases</div>
-          <a class="shop-btn" href="https://amzn.to/4fb9TIq" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="vases">
-        <div class="prod-img" style="background:#ede9e0">
-          <img src="https://i.ibb.co/gbk1KKDm/Chat-GPT-Image-Jun-2-2026-10-29-01-PM.png" alt="XL Beige Ceramic Vase Set of 2"/>
-          <span class="prod-badge">XL</span>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Vases</div>
-          <div class="prod-name">XL Beige Ceramic Vase Set of 2 — Modern Home Decor</div>
-          <a class="shop-btn" href="https://amzn.to/4x8xLDc" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="vases">
-        <div class="prod-img" style="background:#f1ede4">
-          <img src="https://i.ibb.co/C5pjSgNQ/1000039614.png" alt="Beige Decorative Vase Set of 3"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Vases</div>
-          <div class="prod-name">Beige Decorative Vase Set of 3 — Modern Boho Style</div>
-          <a class="shop-btn" href="https://amzn.to/4dKAMAC" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <!-- ─── CANDLES ─── -->
-      <div class="prod-card" data-cat="candles">
-        <div class="prod-img" style="background:#fbeaf0">
-          <img src="https://i.ibb.co/hR60Ypsc/1000039621.png" alt="MOZEAL Hand-Poured Candle"/>
-          <span class="prod-badge">Candles</span>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Candles</div>
-          <div class="prod-name">MOZEAL 3"×6" Hand-Poured Unscented Candle</div>
-          <a class="shop-btn" href="https://amzn.to/3Q5NcLB" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="candles">
-        <div class="prod-img" style="background:#eaf3de">
-          <img src="https://i.ibb.co/bDzT9h5/1000039620.png" alt="Eywamage Sage Green Flameless Candles"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Candles</div>
-          <div class="prod-name">Eywamage Sage Green Flameless Pillar Candles</div>
-          <a class="shop-btn" href="https://amzn.to/4f6eqMj" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="candles">
-        <div class="prod-img" style="background:#fbeaf0">
-          <img src="https://i.ibb.co/C34tQHgj/1000039622.png" alt="Ribbed Pillar Candles Set of 3"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Candles</div>
-          <div class="prod-name">Ribbed Pillar Candles Set of 3</div>
-          <a class="shop-btn" href="https://amzn.to/3PMjdrN" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <!-- ─── MIRRORS ─── -->
-      <div class="prod-card" data-cat="mirrors">
-        <div class="prod-img" style="background:#e8eae3">
-          <img src="https://i.ibb.co/KxYsH0Ts/1000039633.png" alt="BEAUTYPEAK Arch Bathroom Mirror"/>
-          <span class="prod-badge">Mirrors</span>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Mirrors</div>
-          <div class="prod-name">BEAUTYPEAK Arch Bathroom Mirror</div>
-          <a class="shop-btn" href="https://amzn.to/4nPwHQ9" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="mirrors">
-        <div class="prod-img" style="background:#eeedfe">
-          <img src="https://i.ibb.co/MyQsk5qf/1000039634.png" alt="SCWF-GZ Arch Mirror Rectangle Full Length"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Mirrors</div>
-          <div class="prod-name">SCWF-GZ Arch Mirror Rectangle Full Length</div>
-          <a class="shop-btn" href="https://amzn.to/4uAkbGL" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="mirrors">
-        <div class="prod-img" style="background:#e8eae3">
-          <img src="https://i.ibb.co/cKChCgcx/1000039635-1.png" alt="VooBang Wide Arched Wall Mirror"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Mirrors</div>
-          <div class="prod-name">VooBang Wide Arched Wall Mirror</div>
-          <a class="shop-btn" href="https://amzn.to/4wURrKr" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <!-- ─── DECOR OBJECTS ─── -->
-      <div class="prod-card" data-cat="decor">
-        <div class="prod-img" style="background:#f4f0ea">
-          <img src="https://i.ibb.co/QFhXqDGg/1000039779.png" alt="3 Pcs Thinker Small Statue"/>
-          <span class="prod-badge">Decor</span>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Decor Objects</div>
-          <div class="prod-name">3 Pcs Thinker Small Statue</div>
-          <a class="shop-btn" href="https://amzn.to/3RyI8Qi" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="decor">
-        <div class="prod-img" style="background:#ede9e0">
-          <img src="https://i.ibb.co/qvTWnLS/1000039781.png" alt="KIVY Round Decorative Concrete Tray"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Decor Objects</div>
-          <div class="prod-name">KIVY Round Decorative Concrete Tray</div>
-          <a class="shop-btn" href="https://amzn.to/4nPYWOC" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="decor">
-        <div class="prod-img" style="background:#f4f0ea">
-          <img src="https://i.ibb.co/V02wNmbB/1000039780.png" alt="Bookshelf Decor Thinker Statue"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Decor Objects</div>
-          <div class="prod-name">Bookshelf Decor Thinker Statue</div>
-          <a class="shop-btn" href="https://amzn.to/3RAy611" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-cat="decor">
-        <div class="prod-img" style="background:#ede9e0">
-          <img src="https://i.ibb.co/7dJhF0C4/1000039777.png" alt="2 Pcs Natural Wood Arch Decor"/>
-        </div>
-        <div class="prod-body">
-          <div class="prod-cat">Decor Objects</div>
-          <div class="prod-name">2 Pcs Natural Wood Arch Decor</div>
-          <a class="shop-btn" href="https://amzn.to/3PRSjie" target="_blank" rel="noopener">Shop →</a>
-        </div>
-      </div>
-
+      <!-- Filled dynamically -->
     </div>
   </div>
-</div><!-- /page-shop -->
+</div>
 
 <!-- ══════════════════════════
      ABOUT PAGE
@@ -712,39 +728,15 @@ footer{
     <div class="about-eyebrow">✦ Our Story</div>
     <h1 class="about-h1">We Believe Your Home<br>Should Feel <em>Like You</em></h1>
     <div class="about-divider"></div>
-    <p class="about-body">
-      Welcome to <strong>Ivory Home</strong> — a carefully curated edit of home decor pieces that we genuinely love. Every product featured here has been handpicked for its beauty, quality, and the way it transforms a room.
-    </p>
-    <p class="about-body">
-      We started this because finding truly beautiful, affordable home decor felt harder than it should be. So we did the searching for you — scouring Pinterest boards, testing finds, and curating only the pieces that make us stop and say <em>"yes, that's the one."</em>
-    </p>
-    <p class="about-body">
-      From sculptural vases to mood-setting candles, arch mirrors to thoughtful decor objects — everything here is chosen with intention. We update our picks regularly, so there's always something new to discover.
-    </p>
-
+    <p class="about-body">Welcome to <strong>Ivory Home</strong> — a carefully curated edit of home decor pieces that we genuinely love. Every product featured here has been handpicked for its beauty, quality, and the way it transforms a room.</p>
+    <p class="about-body">We started this because finding truly beautiful, affordable home decor felt harder than it should be. So we did the searching for you — scouring Pinterest boards, testing finds, and curating only the pieces that make us stop and say <em>"yes, that's the one."</em></p>
+    <p class="about-body">From sculptural vases to mood-setting candles, arch mirrors to thoughtful decor objects — everything here is chosen with intention. We update our picks regularly, so there's always something new to discover.</p>
     <div class="about-values">
-      <div class="about-val">
-        <div class="about-val-icon">🏺</div>
-        <div class="about-val-title">Curated with Care</div>
-        <div class="about-val-text">Every single product is personally reviewed and chosen — no sponsored placements, no random listings.</div>
-      </div>
-      <div class="about-val">
-        <div class="about-val-icon">✦</div>
-        <div class="about-val-title">Pinterest Inspired</div>
-        <div class="about-val-text">Our aesthetic is rooted in Pinterest — minimal, warm, and always beautiful. Follow us for daily inspo.</div>
-      </div>
-      <div class="about-val">
-        <div class="about-val-icon">💛</div>
-        <div class="about-val-title">Honest Picks Only</div>
-        <div class="about-val-text">We only recommend what we'd actually put in our own home. If it's here, it earns its place.</div>
-      </div>
-      <div class="about-val">
-        <div class="about-val-icon">🔄</div>
-        <div class="about-val-title">Always Fresh</div>
-        <div class="about-val-text">New picks added regularly across all categories — check back often or follow on Pinterest to stay updated.</div>
-      </div>
+      <div class="about-val"><div class="about-val-icon">🏺</div><div class="about-val-title">Curated with Care</div><div class="about-val-text">Every single product is personally reviewed and chosen — no sponsored placements, no random listings.</div></div>
+      <div class="about-val"><div class="about-val-icon">✦</div><div class="about-val-title">Pinterest Inspired</div><div class="about-val-text">Our aesthetic is rooted in Pinterest — minimal, warm, and always beautiful. Follow us for daily inspo.</div></div>
+      <div class="about-val"><div class="about-val-icon">💛</div><div class="about-val-title">Honest Picks Only</div><div class="about-val-text">We only recommend what we'd actually put in our own home. If it's here, it earns its place.</div></div>
+      <div class="about-val"><div class="about-val-icon">🔄</div><div class="about-val-title">Always Fresh</div><div class="about-val-text">New picks added regularly across all categories — check back often or follow on Pinterest to stay updated.</div></div>
     </div>
-
     <div class="about-pin-wrap">
       <p>Follow our Pinterest for daily home decor inspiration, mood boards, and new finds before they hit the site.</p>
       <a class="inspo-pin" href="https://in.pinterest.com/ivoryhomeco/" target="_blank" rel="noopener" style="background:var(--pin-red);color:#fff;display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:3px;text-decoration:none;font-size:13px;font-weight:500">
@@ -752,15 +744,12 @@ footer{
         @ivoryhomeco on Pinterest
       </a>
     </div>
-
-    <!-- AFFILIATE DISCLOSURE — bottom of about page -->
     <div class="affiliate-disclosure">
       <h3>Affiliate Disclosure</h3>
       <p>Some links on this website are affiliate links, meaning we may earn a small commission if you make a purchase through them — at absolutely no extra cost to you. This helps us keep curating and sharing beautiful home finds. We only recommend products we genuinely believe in. Thank you for your support. 🤍</p>
     </div>
-
   </div>
-</div><!-- /page-about -->
+</div>
 
 <!-- ══════════════════════════
      CONTACT PAGE
@@ -770,28 +759,12 @@ footer{
     <div class="contact-eyebrow">✦ Get in Touch</div>
     <h1 class="contact-h1">Say Hello</h1>
     <p class="contact-desc">Have a question, product suggestion, or just want to chat about home decor? Fill in the form below — we'd love to hear from you.</p>
-
-    <!-- 
-      HOW TO ADD YOUR GOOGLE FORM:
-      1. Open your Google Form
-      2. Click the 3-dot menu → "Embed" 
-      3. Copy the iframe src URL (looks like: https://docs.google.com/forms/d/e/XXXXX/viewform?embedded=true)
-      4. Replace YOUR_GOOGLE_FORM_EMBED_URL below with that URL
-      5. Delete the div.form-placeholder and uncomment the iframe
-    -->
-
-    <iframe
-      class="contact-iframe"
-      src="https://docs.google.com/forms/d/e/1FAIpQLSfSk3CZL9HaqI6aM7elErs2-Vq41KmPhQxHrv5vO8Tb6dX1gg/viewform?embedded=true"
-      width="100%" height="620" frameborder="0" marginheight="0" marginwidth="0"
-      title="Contact Form">Loading…
-    </iframe>
-
+    <iframe class="contact-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSfSk3CZL9HaqI6aM7elErs2-Vq41KmPhQxHrv5vO8Tb6dX1gg/viewform?embedded=true" width="100%" height="620" frameborder="0" marginheight="0" marginwidth="0" title="Contact Form">Loading…</iframe>
   </div>
-</div><!-- /page-contact -->
+</div>
 
 <!-- ══ FOOTER ══ -->
-<footer>
+<footer id="main-footer">
   <div class="footer-logo">Ivory <span>Home</span></div>
   <p class="footer-text">A curated edit of home decor pieces — chosen with love, updated regularly. 🤍</p>
   <a class="footer-pin" href="https://in.pinterest.com/ivoryhomeco/" target="_blank" rel="noopener">
@@ -801,23 +774,507 @@ footer{
 </footer>
 
 <!-- STICKY MOBILE CTA -->
-<button class="sticky-mobile" onclick="showPage('shop')">🛍️ Shop All Picks →</button>
+<button class="sticky-mobile" id="sticky-mobile-btn" onclick="showPage('shop')">🛍️ Shop All Picks →</button>
+
+<!-- ══════════════════════════════════════
+     ADMIN PORTAL
+══════════════════════════════════════ -->
+<div id="admin-page">
+  <div class="admin-topbar">
+    <div>
+      <div class="admin-brand">Ivory <span>Home</span> Admin</div>
+      <div class="admin-subtitle">Product Manager</div>
+    </div>
+    <button class="admin-exit-btn" onclick="exitAdmin()">← Public Site</button>
+  </div>
+
+  <div class="admin-layout">
+
+    <!-- LEFT: ADD / EDIT FORM -->
+    <div class="admin-form-panel">
+      <div class="admin-form-title" id="form-panel-title">Naya Product Add Karo</div>
+
+      <input type="hidden" id="edit-product-id" value=""/>
+
+      <div class="form-group">
+        <label class="form-label">Product Name *</label>
+        <input class="form-input" id="f-name" type="text" placeholder="e.g. Ivory Ceramic Vase"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Affiliate Link *</label>
+        <input class="form-input" id="f-link" type="text" placeholder="https://amzn.to/..."/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="f-cat">
+          <option value="vases">Vases</option>
+          <option value="candles">Candles</option>
+          <option value="mirrors">Mirrors</option>
+          <option value="decor">Decor Objects</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Image URL</label>
+        <input class="form-input" id="f-img" type="text" placeholder="https://res.cloudinary.com/..."/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Badge (Optional)</label>
+        <input class="form-input" id="f-badge" type="text" placeholder="New / Sale / XL"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Home Page Par Featured Karo?</label>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            Hero mein dikhao
+            <small>Max 4 products featured ho sakte hain</small>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="f-featured"/>
+            <div class="toggle-track"></div>
+          </label>
+        </div>
+        <div class="featured-counter" id="featured-counter">
+          Featured: <strong id="featured-count">0</strong> / 4
+        </div>
+      </div>
+
+      <button class="admin-btn-primary" id="submit-btn" onclick="submitProduct()">✓ Add Product</button>
+      <button class="admin-btn-secondary" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none">✕ Cancel Edit</button>
+    </div>
+
+    <!-- RIGHT: PRODUCT LIST -->
+    <div class="admin-products-panel">
+      <div class="admin-products-header">
+        <div class="admin-products-title">All Products</div>
+        <input class="admin-search" id="admin-search" type="text" placeholder="Search..." oninput="renderAdminList()"/>
+      </div>
+
+      <div class="admin-stats-row">
+        <div class="admin-stat-chip"><strong id="total-count">0</strong> Products</div>
+        <div class="admin-stat-chip"><strong id="featured-count-stat">0</strong> Featured</div>
+        <div class="admin-stat-chip"><strong>4</strong> Categories</div>
+      </div>
+
+      <div class="product-list" id="admin-product-list">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <div class="modal-title">
+      <span>Product Edit Karo</span>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+
+    <input type="hidden" id="modal-edit-id"/>
+
+    <div class="form-group">
+      <label class="form-label">Product Name *</label>
+      <input class="form-input" id="m-name" type="text"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Affiliate Link *</label>
+      <input class="form-input" id="m-link" type="text"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <select class="form-select" id="m-cat">
+        <option value="vases">Vases</option>
+        <option value="candles">Candles</option>
+        <option value="mirrors">Mirrors</option>
+        <option value="decor">Decor Objects</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Image URL</label>
+      <input class="form-input" id="m-img" type="text"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Badge (Optional)</label>
+      <input class="form-input" id="m-badge" type="text"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Featured on Home Page?</label>
+      <div class="toggle-row">
+        <div class="toggle-label">Hero mein dikhao <small>Max 4 featured</small></div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="m-featured"/>
+          <div class="toggle-track"></div>
+        </label>
+      </div>
+    </div>
+    <button class="admin-btn-primary" onclick="saveEdit()" style="margin-top:8px">✓ Save Changes</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
+// ════════════════════════════════════════
+//  DEFAULT PRODUCT DATA
+// ════════════════════════════════════════
+const DEFAULT_PRODUCTS = [];
+
+// ════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════
+function loadProducts(){
+  const saved = localStorage.getItem('ih_products');
+  return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+}
+function saveProducts(prods){
+  localStorage.setItem('ih_products',JSON.stringify(prods));
+}
+function generateId(prods){
+  const nums = prods.map(p=>parseInt(p.id.replace('IH',''))||0);
+  const max = nums.length ? Math.max(...nums) : 0;
+  return 'IH' + String(max+1).padStart(3,'0');
+}
+
+let products = loadProducts();
+let currentFilter = 'all';
+
+// ════════════════════════════════════════
+//  ADMIN URL DETECTION
+// ════════════════════════════════════════
+const ADMIN_SECRET = 'ivoryhome2024';
+
+function checkAdminMode(){
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('admin') === ADMIN_SECRET){
+    enterAdmin();
+  }
+}
+
+function enterAdmin(){
+  document.getElementById('admin-page').classList.add('active');
+  document.getElementById('main-nav').style.display='none';
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('main-footer').style.display='none';
+  document.getElementById('sticky-mobile-btn').style.display='none';
+  renderAdminList();
+  updateFeaturedCounter();
+}
+
+function exitAdmin(){
+  window.location.href = window.location.pathname;
+}
+
+// ════════════════════════════════════════
+//  PUBLIC SITE RENDERING
+// ════════════════════════════════════════
+const CAT_LABELS = {vases:'Vases',candles:'Candles',mirrors:'Mirrors',decor:'Decor Objects'};
+const BG_COLORS = {vases:['#f1ede4','#f5f0e8','#ede9e0','#f1ede4'],candles:['#fbeaf0','#eaf3de','#fbeaf0','#f4f0ea'],mirrors:['#e8eae3','#eeedfe','#e8eae3','#ede9e0'],decor:['#f4f0ea','#ede9e0','#f4f0ea','#ede9e0']};
+
+function getBg(cat,i){
+  const arr = BG_COLORS[cat]||['#f1ede4','#f5f0e8','#ede9e0','#f4f0ea'];
+  return arr[i%arr.length];
+}
+
+function renderHero(){
+  const featured = products.filter(p=>p.featured);
+  const heroGrid = document.getElementById('hero-grid');
+  heroGrid.innerHTML = '';
+
+  // If exactly 4 featured → no images, just show placeholder aesthetic cells
+  if(featured.length >= 4){
+    heroGrid.innerHTML = `
+      <div class="hero-img-cell"><div class="hero-img-emoji">🏺</div></div>
+      <div class="hero-img-cell" style="margin-top:24px"><div class="hero-img-emoji">🕯️</div></div>
+      <div class="hero-img-cell" style="margin-top:-24px"><div class="hero-img-emoji">🪞</div></div>
+      <div class="hero-img-cell"><div class="hero-img-emoji">✦</div></div>
+    `;
+    return;
+  }
+
+  // Show featured product images + fill remaining with placeholders
+  const offsets = ['','margin-top:24px','margin-top:-24px',''];
+  for(let i=0;i<4;i++){
+    const p = featured[i];
+    const cell = document.createElement('div');
+    cell.className='hero-img-cell';
+    cell.style.cssText = offsets[i];
+    if(p && p.img){
+      cell.innerHTML=`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`;
+    } else if(p){
+      cell.innerHTML=`<div class="hero-img-emoji">🏺</div>`;
+    } else {
+      cell.innerHTML=`<div class="hero-img-emoji" style="font-size:24px;opacity:.15">✦</div>`;
+    }
+    heroGrid.appendChild(cell);
+  }
+}
+
+function renderFeatured(){
+  const featured = products.filter(p=>p.featured).slice(0,4);
+  const grid = document.getElementById('featured-grid');
+  grid.innerHTML='';
+  if(!featured.length){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-light);font-size:13px;letter-spacing:.08em;text-transform:uppercase">No featured products yet</div>';
+    return;
+  }
+  featured.forEach(p=>{
+    grid.innerHTML+=`
+      <div class="feat-card">
+        <div class="feat-img" style="background:${getBg(p.cat,0)}">
+          ${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`:`<div class="feat-img-icon">🏺</div>`}
+          ${p.badge?`<span class="feat-badge">${p.badge}</span>`:''}
+        </div>
+        <div class="feat-body">
+          <div class="feat-cat">${CAT_LABELS[p.cat]||p.cat}</div>
+          <div class="feat-name">${p.name}</div>
+          <a class="feat-btn" href="${p.link}" target="_blank" rel="noopener">Shop →</a>
+        </div>
+      </div>`;
+  });
+}
+
+function renderShop(cat='all'){
+  const grid = document.getElementById('shop-grid');
+  grid.innerHTML='';
+  const filtered = cat==='all' ? products : products.filter(p=>p.cat===cat);
+  filtered.forEach((p,i)=>{
+    grid.innerHTML+=`
+      <div class="prod-card" data-cat="${p.cat}">
+        <div class="prod-img" style="background:${getBg(p.cat,i)}">
+          ${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`:`<div class="prod-img-icon">🏺</div>`}
+          ${p.badge?`<span class="prod-badge">${p.badge}</span>`:''}
+        </div>
+        <div class="prod-body">
+          <div class="prod-cat">${CAT_LABELS[p.cat]||p.cat}</div>
+          <div class="prod-name">${p.name}</div>
+          <a class="shop-btn" href="${p.link}" target="_blank" rel="noopener">Shop →</a>
+        </div>
+      </div>`;
+  });
+  document.getElementById('stat-products').textContent=products.length;
+}
+
+function renderPublicSite(){
+  renderHero();
+  renderFeatured();
+  renderShop(currentFilter);
+}
+
+// ════════════════════════════════════════
+//  ADMIN RENDERING
+// ════════════════════════════════════════
+function renderAdminList(){
+  const q = (document.getElementById('admin-search')||{value:''}).value.toLowerCase();
+  const list = document.getElementById('admin-product-list');
+  const filtered = products.filter(p=>p.name.toLowerCase().includes(q)||p.id.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q));
+  
+  list.innerHTML = filtered.length ? '' : '<div style="text-align:center;padding:40px;color:#3d3a34;font-size:12px;letter-spacing:.08em;text-transform:uppercase">No products found</div>';
+  
+  filtered.forEach(p=>{
+    const row = document.createElement('div');
+    row.className='product-row'+(p.featured?' featured-row':'');
+    row.innerHTML=`
+      ${p.img
+        ? `<img class="product-thumb" src="${p.img}" alt="${p.name}" loading="lazy"/>`
+        : `<div class="product-thumb-placeholder">🏺</div>`}
+      <div class="product-info">
+        <div class="product-row-name">${p.name}</div>
+        <div class="product-row-meta">
+          <span class="product-row-cat">${CAT_LABELS[p.cat]||p.cat}</span>
+          <span class="product-row-id">${p.id}</span>
+          ${p.featured?`<span class="featured-badge-small">★ Featured</span>`:''}
+        </div>
+      </div>
+      <div class="product-row-actions">
+        <button class="btn-icon copy-btn" title="ID Copy karo" onclick="copyId('${p.id}')">📋</button>
+        <a class="pin-link-btn" href="${p.link}" target="_blank" rel="noopener" title="Amazon link">↗ Link</a>
+        <button class="btn-icon edit-btn" title="Edit" onclick="openEditModal('${p.id}')">✏️</button>
+        <button class="btn-icon delete-btn" title="Delete" onclick="deleteProduct('${p.id}')">✕</button>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+
+  // Update stats
+  const fc = products.filter(p=>p.featured).length;
+  document.getElementById('total-count').textContent=products.length;
+  document.getElementById('featured-count-stat').textContent=fc;
+}
+
+function updateFeaturedCounter(){
+  const fc = products.filter(p=>p.featured).length;
+  document.getElementById('featured-count').textContent=fc;
+}
+
+// ════════════════════════════════════════
+//  ADD PRODUCT
+// ════════════════════════════════════════
+function submitProduct(){
+  const name = document.getElementById('f-name').value.trim();
+  const link = document.getElementById('f-link').value.trim();
+  const cat  = document.getElementById('f-cat').value;
+  const img  = document.getElementById('f-img').value.trim();
+  const badge= document.getElementById('f-badge').value.trim();
+  const featured = document.getElementById('f-featured').checked;
+
+  if(!name||!link){showToast('⚠ Name aur link required hai');return;}
+
+  const fc = products.filter(p=>p.featured).length;
+  if(featured && fc>=4){showToast('⚠ Max 4 products hi featured ho sakte hain');return;}
+
+  const newP = {id:generateId(products),name,cat,link,img,badge,featured};
+  products.push(newP);
+  saveProducts(products);
+  renderAdminList();
+  updateFeaturedCounter();
+  renderPublicSite();
+  clearForm();
+  showToast('✓ Product add ho gaya — '+newP.id);
+}
+
+function clearForm(){
+  document.getElementById('f-name').value='';
+  document.getElementById('f-link').value='';
+  document.getElementById('f-img').value='';
+  document.getElementById('f-badge').value='';
+  document.getElementById('f-featured').checked=false;
+  document.getElementById('f-cat').value='vases';
+}
+
+// ════════════════════════════════════════
+//  EDIT PRODUCT (Modal)
+// ════════════════════════════════════════
+function openEditModal(id){
+  const p = products.find(x=>x.id===id);
+  if(!p)return;
+  document.getElementById('modal-edit-id').value=id;
+  document.getElementById('m-name').value=p.name;
+  document.getElementById('m-link').value=p.link;
+  document.getElementById('m-cat').value=p.cat;
+  document.getElementById('m-img').value=p.img||'';
+  document.getElementById('m-badge').value=p.badge||'';
+  document.getElementById('m-featured').checked=p.featured||false;
+  document.getElementById('edit-modal').classList.add('active');
+}
+
+function closeEditModal(){
+  document.getElementById('edit-modal').classList.remove('active');
+}
+
+function saveEdit(){
+  const id = document.getElementById('modal-edit-id').value;
+  const idx = products.findIndex(x=>x.id===id);
+  if(idx===-1)return;
+
+  const featured = document.getElementById('m-featured').checked;
+  const wasFeatured = products[idx].featured;
+  const fc = products.filter(p=>p.featured && p.id!==id).length;
+  if(featured && !wasFeatured && fc>=4){showToast('⚠ Max 4 products featured ho sakte hain');return;}
+
+  products[idx]={
+    ...products[idx],
+    name:document.getElementById('m-name').value.trim(),
+    link:document.getElementById('m-link').value.trim(),
+    cat:document.getElementById('m-cat').value,
+    img:document.getElementById('m-img').value.trim(),
+    badge:document.getElementById('m-badge').value.trim(),
+    featured
+  };
+  saveProducts(products);
+  closeEditModal();
+  renderAdminList();
+  updateFeaturedCounter();
+  renderPublicSite();
+  showToast('✓ Product update ho gaya');
+}
+
+// ════════════════════════════════════════
+//  DELETE
+// ════════════════════════════════════════
+function deleteProduct(id){
+  if(!confirm('Yeh product delete karna chahte ho?'))return;
+  products=products.filter(p=>p.id!==id);
+  saveProducts(products);
+  renderAdminList();
+  updateFeaturedCounter();
+  renderPublicSite();
+  showToast('Product delete ho gaya');
+}
+
+// ════════════════════════════════════════
+//  COPY ID
+// ════════════════════════════════════════
+function copyId(id){
+  navigator.clipboard.writeText(id).then(()=>{
+    showToast('✓ Copied: '+id);
+  }).catch(()=>{
+    // Fallback
+    const el=document.createElement('textarea');
+    el.value=id;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    showToast('✓ Copied: '+id);
+  });
+}
+
+// ════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ════════════════════════════════════════
+//  PUBLIC NAVIGATION
+// ════════════════════════════════════════
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   document.getElementById('tab-'+id).classList.add('active');
+  if(id==='shop') renderShop(currentFilter);
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function filterCat(cat,el){
+  currentFilter=cat;
   document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
-  document.querySelectorAll('.prod-card').forEach(card=>{
-    card.style.display=(cat==='all'||card.dataset.cat===cat)?'block':'none';
-  });
+  renderShop(cat);
 }
+
+function cancelEdit(){
+  clearForm();
+  document.getElementById('submit-btn').textContent='✓ Add Product';
+  document.getElementById('cancel-edit-btn').style.display='none';
+  document.getElementById('form-panel-title').textContent='Naya Product Add Karo';
+  document.getElementById('edit-product-id').value='';
+}
+
+// Close modal on overlay click
+document.getElementById('edit-modal').addEventListener('click',function(e){
+  if(e.target===this)closeEditModal();
+});
+
+// ════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════
+checkAdminMode();
+renderPublicSite();
 </script>
 </body>
 </html>

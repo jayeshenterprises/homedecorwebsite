@@ -347,264 +347,318 @@ footer{
 }
 
 /* ══════════════════════════════════════
-   ADMIN PORTAL
+   ADMIN PORTAL — REDESIGNED
 ══════════════════════════════════════ */
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseAccent{0%,100%{box-shadow:0 0 0 0 rgba(176,125,78,.3)}50%{box-shadow:0 0 0 6px rgba(176,125,78,.0)}}
+
 #admin-page{
-  display:none;
-  min-height:100vh;
-  background:#0f0e0d;
+  display:none;min-height:100vh;
+  background:linear-gradient(135deg,#0c0b09 0%,#110f0d 50%,#0f0e0b 100%);
   font-family:'DM Sans',sans-serif;
 }
 #admin-page.active{display:block}
 
 .admin-topbar{
-  background:#1a1916;
-  border-bottom:1px solid #2d2a25;
-  padding:0 32px;
-  height:58px;
+  background:rgba(20,18,14,.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(176,125,78,.15);
+  padding:0 36px;height:64px;
   display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
 }
 .admin-brand{
   font-family:'Cormorant Garamond',serif;
-  font-size:20px;font-weight:500;color:#f0ebe3;letter-spacing:.06em;
+  font-size:22px;font-weight:500;color:#f5efe6;letter-spacing:.06em;
+  display:flex;align-items:center;gap:10px;
 }
-.admin-brand span{color:var(--accent)}
-.admin-subtitle{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5a5650;margin-top:1px}
+.admin-brand span{color:#c49a62}
+.admin-brand-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:linear-gradient(135deg,#c49a62,#e8b87a);
+  box-shadow:0 0 8px rgba(196,154,98,.6);
+  animation:pulseAccent 2s infinite;
+}
+.admin-subtitle{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#4a4540;margin-top:1px}
+.admin-topbar-right{display:flex;align-items:center;gap:12px}
+.admin-sync-status{
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:#4a4540;padding:5px 12px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);
+  border-radius:20px;
+}
+.admin-sync-status.synced{color:#7aab6e;border-color:rgba(122,171,110,.2);background:rgba(122,171,110,.06)}
 .admin-exit-btn{
   font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-  color:#6b6760;background:transparent;border:.5px solid #2d2a25;
-  padding:7px 16px;border-radius:2px;cursor:pointer;
-  transition:all .18s;text-decoration:none;
+  color:#6b6760;background:transparent;
+  border:1px solid rgba(255,255,255,.08);
+  padding:8px 18px;border-radius:20px;cursor:pointer;
+  transition:all .22s;text-decoration:none;display:flex;align-items:center;gap:6px;
 }
-.admin-exit-btn:hover{color:#f0ebe3;border-color:#5a5650}
+.admin-exit-btn:hover{color:#f5efe6;border-color:rgba(196,154,98,.4);background:rgba(196,154,98,.06)}
 
 .admin-layout{
   display:grid;
-  grid-template-columns:360px 1fr;
-  min-height:calc(100vh - 58px);
+  grid-template-columns:380px 1fr;
+  min-height:calc(100vh - 64px);
 }
 
-/* LEFT PANEL — Add/Edit Form */
+/* ── LEFT PANEL ── */
 .admin-form-panel{
-  background:#161512;
-  border-right:1px solid #2d2a25;
-  padding:28px 24px;
+  background:rgba(15,13,10,.6);
+  border-right:1px solid rgba(176,125,78,.08);
+  padding:32px 28px;
   overflow-y:auto;
-  max-height:calc(100vh - 58px);
-  position:sticky;top:58px;
+  max-height:calc(100vh - 64px);
+  position:sticky;top:64px;
+}
+.admin-form-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:28px;padding-bottom:20px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.admin-form-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,rgba(196,154,98,.2),rgba(196,154,98,.05));
+  border:1px solid rgba(196,154,98,.25);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
 }
 .admin-form-title{
-  font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
-  color:#f0ebe3;margin-bottom:22px;
-  display:flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:500;color:#f5efe6;letter-spacing:.02em;
 }
-.admin-form-title::before{
-  content:'';width:3px;height:14px;background:var(--accent);border-radius:2px;
-}
+.admin-form-subtitle{font-size:11px;color:#4a4540;margin-top:1px}
 
-.form-group{margin-bottom:18px}
+.form-group{margin-bottom:16px}
 .form-label{
-  display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  color:#6b6760;margin-bottom:6px;
+  display:flex;align-items:center;gap:6px;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#5a5550;margin-bottom:8px;font-weight:500;
 }
-.form-input,.form-select,.form-textarea{
-  width:100%;background:#1e1c19;
-  border:.5px solid #2d2a25;
-  color:#d4cdc4;font-size:13px;
-  padding:10px 12px;border-radius:2px;
+.form-label-req{color:#c49a62;font-size:11px}
+.form-input,.form-select{
+  width:100%;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  color:#e0d8ce;font-size:13px;
+  padding:11px 14px;border-radius:8px;
   font-family:'DM Sans',sans-serif;
-  transition:border-color .18s;
-  outline:none;
+  transition:all .2s;outline:none;
 }
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent)}
-.form-input::placeholder,.form-textarea::placeholder{color:#3d3a34}
-.form-select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a5650' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
-.form-select option{background:#1e1c19}
-.form-textarea{min-height:80px;resize:vertical}
+.form-input:focus,.form-select:focus{
+  border-color:rgba(196,154,98,.5);
+  background:rgba(196,154,98,.05);
+  box-shadow:0 0 0 3px rgba(196,154,98,.08);
+}
+.form-input::placeholder{color:#2e2b26}
+.form-select{
+  appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a5550' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;
+}
+.form-select option{background:#1a1610}
 
-.toggle-row{
+.toggle-card{
   display:flex;align-items:center;justify-content:space-between;
-  padding:12px 14px;background:#1a1916;border:.5px solid #2d2a25;border-radius:2px;
+  padding:14px 16px;
+  background:rgba(196,154,98,.05);
+  border:1px solid rgba(196,154,98,.15);
+  border-radius:10px;
 }
-.toggle-label{font-size:12px;color:#a8a39c;line-height:1.4}
-.toggle-label small{display:block;font-size:10px;color:#5a5650;margin-top:2px;letter-spacing:.06em}
-.toggle-switch{
-  position:relative;width:40px;height:22px;flex-shrink:0;
-}
+.toggle-card.inactive{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.07)}
+.toggle-label{font-size:13px;color:#a8a09a;line-height:1.4}
+.toggle-label small{display:block;font-size:10px;color:#4a4540;margin-top:2px;letter-spacing:.06em}
+.toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0}
 .toggle-switch input{opacity:0;width:0;height:0}
 .toggle-track{
   position:absolute;inset:0;
-  background:#2d2a25;border-radius:22px;cursor:pointer;
-  transition:background .2s;
+  background:#2a2620;border-radius:24px;cursor:pointer;
+  transition:background .25s;border:1px solid rgba(255,255,255,.08);
 }
 .toggle-track::after{
   content:'';position:absolute;top:3px;left:3px;
-  width:16px;height:16px;background:#6b6760;
-  border-radius:50%;transition:all .2s;
+  width:16px;height:16px;background:#4a4540;
+  border-radius:50%;transition:all .25s;
 }
-.toggle-switch input:checked + .toggle-track{background:var(--accent)}
-.toggle-switch input:checked + .toggle-track::after{transform:translateX(18px);background:#fff}
+.toggle-switch input:checked + .toggle-track{
+  background:linear-gradient(135deg,#c49a62,#e8b87a);
+  border-color:transparent;
+}
+.toggle-switch input:checked + .toggle-track::after{transform:translateX(20px);background:#fff}
+
+.featured-pills{
+  display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;
+}
+.featured-pill{
+  width:28px;height:6px;border-radius:3px;
+  background:rgba(255,255,255,.06);border:none;
+  transition:background .2s;
+}
+.featured-pill.filled{background:linear-gradient(90deg,#c49a62,#e8b87a)}
 
 .admin-btn-primary{
-  width:100%;padding:12px;background:var(--accent);color:#fff;
-  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  border:none;border-radius:2px;cursor:pointer;
-  font-family:'DM Sans',sans-serif;font-weight:500;
-  transition:background .18s;margin-top:4px;
+  width:100%;padding:13px;
+  background:linear-gradient(135deg,#c49a62,#d4a96e);
+  color:#1a1208;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  border:none;border-radius:10px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-weight:600;
+  transition:all .22s;margin-top:6px;
+  box-shadow:0 4px 16px rgba(196,154,98,.2);
 }
-.admin-btn-primary:hover{background:#9a6c3e}
+.admin-btn-primary:hover{
+  background:linear-gradient(135deg,#d4a96e,#e8b87a);
+  box-shadow:0 6px 24px rgba(196,154,98,.35);transform:translateY(-1px);
+}
 .admin-btn-secondary{
-  width:100%;padding:11px;background:transparent;color:#6b6760;
+  width:100%;padding:12px;background:transparent;color:#5a5550;
   font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-  border:.5px solid #2d2a25;border-radius:2px;cursor:pointer;
-  font-family:'DM Sans',sans-serif;
-  transition:all .18s;margin-top:8px;
+  border:1px solid rgba(255,255,255,.07);border-radius:10px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:8px;
 }
-.admin-btn-secondary:hover{color:#d4cdc4;border-color:#5a5650}
+.admin-btn-secondary:hover{color:#d4cdc4;border-color:rgba(255,255,255,.15)}
 
-.featured-counter{
-  margin-top:10px;padding:10px 12px;
-  background:#1a1916;border:.5px solid #2d2a25;border-radius:2px;
-  font-size:11px;color:#6b6760;text-align:center;letter-spacing:.06em;
-}
-.featured-counter strong{color:var(--accent)}
+/* ── RIGHT PANEL ── */
+.admin-products-panel{padding:32px 32px 80px;overflow-y:auto}
 
-/* RIGHT PANEL — Products List */
-.admin-products-panel{
-  padding:28px 28px 60px;
-  overflow-y:auto;
-}
 .admin-products-header{
   display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:20px;flex-wrap:wrap;gap:12px;
+  margin-bottom:24px;flex-wrap:wrap;gap:12px;
 }
-.admin-products-title{
-  font-size:14px;font-weight:500;color:#f0ebe3;letter-spacing:.04em;
+.admin-products-title-wrap{}
+.admin-products-title{font-size:18px;font-weight:500;color:#f5efe6;letter-spacing:.01em}
+.admin-products-count{font-size:12px;color:#4a4540;margin-top:2px}
+
+.admin-search-wrap{position:relative}
+.admin-search-icon{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  font-size:12px;color:#4a4540;pointer-events:none;
 }
 .admin-search{
-  background:#161512;border:.5px solid #2d2a25;
-  color:#d4cdc4;font-size:12px;padding:8px 14px;
-  border-radius:2px;width:220px;outline:none;
-  font-family:'DM Sans',sans-serif;transition:border-color .18s;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  color:#d4cdc4;font-size:12px;padding:9px 14px 9px 34px;
+  border-radius:20px;width:240px;outline:none;
+  font-family:'DM Sans',sans-serif;transition:all .2s;
 }
-.admin-search:focus{border-color:var(--accent)}
-.admin-search::placeholder{color:#3d3a34}
+.admin-search:focus{border-color:rgba(196,154,98,.4);background:rgba(196,154,98,.04)}
+.admin-search::placeholder{color:#2e2b26}
 
 .admin-stats-row{
-  display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;
 }
-.admin-stat-chip{
-  padding:8px 16px;background:#161512;
-  border:.5px solid #2d2a25;border-radius:2px;
-  font-size:11px;color:#6b6760;letter-spacing:.08em;
+.admin-stat-card{
+  padding:16px 18px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);border-radius:12px;
+  transition:border-color .2s;
 }
-.admin-stat-chip strong{color:var(--accent);font-weight:500}
+.admin-stat-card:hover{border-color:rgba(196,154,98,.2)}
+.admin-stat-card-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:400;color:#c49a62;margin-bottom:2px;
+}
+.admin-stat-card-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#4a4540}
 
-.product-list{display:flex;flex-direction:column;gap:10px}
+.product-list{display:flex;flex-direction:column;gap:8px}
 
 .product-row{
-  background:#161512;border:.5px solid #2d2a25;border-radius:2px;
-  padding:14px 16px;
-  display:grid;
-  grid-template-columns:48px 1fr auto;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:14px 16px;
+  display:grid;grid-template-columns:56px 1fr auto;
   align-items:center;gap:14px;
-  transition:border-color .18s;
+  transition:all .22s;
+  animation:fadeSlideIn .3s ease;
 }
-.product-row:hover{border-color:#3d3a34}
-.product-row.featured-row{border-color:rgba(176,125,78,.4);background:#1a1714}
+.product-row:hover{
+  background:rgba(255,255,255,.05);
+  border-color:rgba(255,255,255,.1);
+  transform:translateX(3px);
+}
+.product-row.featured-row{
+  border-color:rgba(196,154,98,.25);
+  background:rgba(196,154,98,.04);
+}
+.product-row.featured-row:hover{border-color:rgba(196,154,98,.4);background:rgba(196,154,98,.07)}
 
 .product-thumb{
-  width:48px;height:48px;border-radius:2px;
-  object-fit:cover;background:#2d2a25;
-  border:.5px solid #2d2a25;
+  width:56px;height:56px;border-radius:10px;
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,.08);
 }
 .product-thumb-placeholder{
-  width:48px;height:48px;border-radius:2px;
-  background:#2d2a25;border:.5px solid #2d2a25;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;opacity:.4;
+  width:56px;height:56px;border-radius:10px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:center;font-size:20px;opacity:.4;
 }
 
 .product-info{min-width:0}
 .product-row-name{
-  font-size:13px;font-weight:500;color:#d4cdc4;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  margin-bottom:4px;
+  font-size:13px;font-weight:500;color:#e0d8ce;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px;
 }
-.product-row-meta{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-}
+.product-row-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .product-row-cat{
   font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--accent);
+  color:#c49a62;background:rgba(196,154,98,.1);
+  padding:2px 8px;border-radius:4px;
 }
 .product-row-id{
-  font-size:10px;color:#3d3a34;font-family:monospace;letter-spacing:.06em;
+  font-size:10px;color:#3a3630;font-family:monospace;letter-spacing:.04em;
 }
-.featured-badge-small{
-  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
-  background:rgba(176,125,78,.15);color:var(--accent);
-  border:.5px solid rgba(176,125,78,.3);
-  padding:2px 7px;border-radius:2px;
-}
+.featured-star{font-size:11px;color:#c49a62}
 
-.product-row-actions{
-  display:flex;align-items:center;gap:6px;flex-shrink:0;
-}
+.product-row-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .btn-icon{
-  width:30px;height:30px;border-radius:2px;border:.5px solid #2d2a25;
+  width:34px;height:34px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.07);
   background:transparent;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:all .18s;font-size:12px;
+  transition:all .18s;font-size:13px;color:#6b6760;
 }
-.btn-icon:hover{background:#2d2a25;border-color:#5a5650}
-.btn-icon.copy-btn:hover{background:rgba(176,125,78,.15);border-color:rgba(176,125,78,.4)}
-.btn-icon.edit-btn:hover{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3)}
-.btn-icon.delete-btn:hover{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3)}
-
-.pin-link-btn{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:10px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--pin-red);background:rgba(230,0,35,.08);
-  border:.5px solid rgba(230,0,35,.2);
-  padding:5px 10px;border-radius:2px;cursor:pointer;
-  text-decoration:none;transition:all .18s;white-space:nowrap;
-}
-.pin-link-btn:hover{background:rgba(230,0,35,.15)}
+.btn-icon:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#d4cdc4;transform:scale(1.05)}
+.btn-icon.copy-btn:hover{background:rgba(196,154,98,.15);border-color:rgba(196,154,98,.35);color:#c49a62}
+.btn-icon.edit-btn:hover{background:rgba(100,160,240,.1);border-color:rgba(100,160,240,.3);color:#80b4f0}
+.btn-icon.delete-btn:hover{background:rgba(230,80,80,.1);border-color:rgba(230,80,80,.3);color:#f08080}
 
 /* Toast */
 .toast{
-  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
-  background:#1a1916;border:.5px solid var(--accent);
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:linear-gradient(135deg,#1e1b15,#2a2418);
+  border:1px solid rgba(196,154,98,.3);
   color:#d4cdc4;font-size:12px;letter-spacing:.06em;
-  padding:10px 20px;border-radius:2px;z-index:9999;
-  transition:transform .3s;pointer-events:none;
+  padding:12px 24px;border-radius:24px;z-index:9999;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
 }
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-/* Modal overlay for edit */
+/* Modal */
 .modal-overlay{
   display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.7);backdrop-filter:blur(4px);
+  background:rgba(0,0,0,.75);backdrop-filter:blur(8px);
   z-index:500;align-items:center;justify-content:center;
 }
 .modal-overlay.active{display:flex}
 .modal-box{
-  background:#161512;border:.5px solid #2d2a25;border-radius:3px;
-  padding:28px;width:90%;max-width:480px;max-height:90vh;overflow-y:auto;
+  background:linear-gradient(135deg,#17140f,#1e1a13);
+  border:1px solid rgba(196,154,98,.2);border-radius:16px;
+  padding:32px;width:90%;max-width:480px;max-height:90vh;overflow-y:auto;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+  animation:fadeSlideIn .25s ease;
 }
-.modal-title{
-  font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
-  color:#f0ebe3;margin-bottom:22px;
+.modal-header{
   display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:28px;padding-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
+.modal-title{font-size:15px;font-weight:500;color:#f5efe6;letter-spacing:.02em}
 .modal-close{
-  background:transparent;border:.5px solid #2d2a25;color:#6b6760;
-  width:28px;height:28px;border-radius:2px;cursor:pointer;font-size:14px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .18s;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#6b6760;
+  width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;transition:all .18s;
 }
-.modal-close:hover{color:#f0ebe3;border-color:#5a5650}
+.modal-close:hover{color:#f5efe6;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)}
 </style>
 </head>
 <body>
@@ -781,29 +835,35 @@ footer{
 ══════════════════════════════════════ -->
 <div id="admin-page">
   <div class="admin-topbar">
-    <div>
-      <div class="admin-brand">Ivory <span>Home</span> Admin</div>
-      <div class="admin-subtitle">Product Manager</div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="admin-brand-dot"></div>
+      <div>
+        <div class="admin-brand">Ivory <span>Home</span></div>
+        <div class="admin-subtitle">Product Manager</div>
+      </div>
     </div>
-    <button class="admin-exit-btn" onclick="exitAdmin()">← Public Site</button>
+    <div class="admin-topbar-right">
+      <div class="admin-sync-status" id="sync-status">● Local</div>
+      <button class="admin-exit-btn" onclick="exitAdmin()">← Public Site</button>
+    </div>
   </div>
 
   <div class="admin-layout">
 
     <!-- LEFT: ADD / EDIT FORM -->
     <div class="admin-form-panel">
-      <div class="admin-form-title" id="form-panel-title">Naya Product Add Karo</div>
-
+      <div class="admin-form-header">
+        <div class="admin-form-icon">✦</div>
+        <div>
+          <div class="admin-form-title" id="form-panel-title">Naya Product</div>
+          <div class="admin-form-subtitle">Details bharo aur add karo</div>
+        </div>
+      </div>
       <input type="hidden" id="edit-product-id" value=""/>
 
       <div class="form-group">
-        <label class="form-label">Product Name *</label>
+        <label class="form-label">Product Name <span class="form-label-req">*</span></label>
         <input class="form-input" id="f-name" type="text" placeholder="e.g. Ivory Ceramic Vase"/>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Affiliate Link *</label>
-        <input class="form-input" id="f-link" type="text" placeholder="https://amzn.to/..."/>
       </div>
 
       <div class="form-group">
@@ -828,7 +888,7 @@ footer{
 
       <div class="form-group">
         <label class="form-label">Home Page Par Featured Karo?</label>
-        <div class="toggle-row">
+        <div class="toggle-card inactive" id="toggle-card-main">
           <div class="toggle-label">
             Hero mein dikhao
             <small>Max 4 products featured ho sakte hain</small>
@@ -838,8 +898,12 @@ footer{
             <div class="toggle-track"></div>
           </label>
         </div>
-        <div class="featured-counter" id="featured-counter">
-          Featured: <strong id="featured-count">0</strong> / 4
+        <div class="featured-pills" id="featured-counter">
+          <div class="featured-pill" id="fp0"></div>
+          <div class="featured-pill" id="fp1"></div>
+          <div class="featured-pill" id="fp2"></div>
+          <div class="featured-pill" id="fp3"></div>
+          <span style="font-size:10px;color:#4a4540;letter-spacing:.1em;text-transform:uppercase;align-self:center;margin-left:4px"><span id="featured-count">0</span>/4 featured</span>
         </div>
       </div>
 
@@ -850,14 +914,29 @@ footer{
     <!-- RIGHT: PRODUCT LIST -->
     <div class="admin-products-panel">
       <div class="admin-products-header">
-        <div class="admin-products-title">All Products</div>
-        <input class="admin-search" id="admin-search" type="text" placeholder="Search..." oninput="renderAdminList()"/>
+        <div class="admin-products-title-wrap">
+          <div class="admin-products-title">All Products</div>
+          <div class="admin-products-count" id="products-count-label">Loading...</div>
+        </div>
+        <div class="admin-search-wrap">
+          <span class="admin-search-icon">🔍</span>
+          <input class="admin-search" id="admin-search" type="text" placeholder="Search products..." oninput="renderAdminList()"/>
+        </div>
       </div>
 
       <div class="admin-stats-row">
-        <div class="admin-stat-chip"><strong id="total-count">0</strong> Products</div>
-        <div class="admin-stat-chip"><strong id="featured-count-stat">0</strong> Featured</div>
-        <div class="admin-stat-chip"><strong>4</strong> Categories</div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card-num" id="total-count">0</div>
+          <div class="admin-stat-card-label">Total Products</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card-num" id="featured-count-stat">0</div>
+          <div class="admin-stat-card-label">Featured</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-card-num">4</div>
+          <div class="admin-stat-card-label">Categories</div>
+        </div>
       </div>
 
       <div class="product-list" id="admin-product-list">
@@ -871,20 +950,16 @@ footer{
 <!-- EDIT MODAL -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal-box">
-    <div class="modal-title">
-      <span>Product Edit Karo</span>
+    <div class="modal-header">
+      <div class="modal-title">Product Edit Karo</div>
       <button class="modal-close" onclick="closeEditModal()">✕</button>
     </div>
 
     <input type="hidden" id="modal-edit-id"/>
 
     <div class="form-group">
-      <label class="form-label">Product Name *</label>
+      <label class="form-label">Product Name <span class="form-label-req">*</span></label>
       <input class="form-input" id="m-name" type="text"/>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Affiliate Link *</label>
-      <input class="form-input" id="m-link" type="text"/>
     </div>
     <div class="form-group">
       <label class="form-label">Category</label>
@@ -905,7 +980,7 @@ footer{
     </div>
     <div class="form-group">
       <label class="form-label">Featured on Home Page?</label>
-      <div class="toggle-row">
+      <div class="toggle-card inactive" id="toggle-card-main">
         <div class="toggle-label">Hero mein dikhao <small>Max 4 featured</small></div>
         <label class="toggle-switch">
           <input type="checkbox" id="m-featured"/>
@@ -943,6 +1018,8 @@ function saveProducts(prods){
   if(SHEETS_URL) syncToSheets(prods);
 }
 async function syncToSheets(prods){
+  const ss = document.getElementById('sync-status');
+  if(ss){ss.textContent='⟳ Syncing...';ss.className='admin-sync-status';}
   try{
     await fetch(SHEETS_URL,{
       method:'POST',
@@ -950,7 +1027,12 @@ async function syncToSheets(prods){
       body:JSON.stringify({action:'save_all',products:prods}),
       mode:'no-cors'
     });
-  }catch(e){console.warn('Sheets sync failed',e);}
+    if(ss){ss.textContent='✓ Synced';ss.className='admin-sync-status synced';}
+    setTimeout(()=>{if(ss){ss.textContent='● Cloud';ss.className='admin-sync-status synced';}},3000);
+  }catch(e){
+    console.warn('Sheets sync failed',e);
+    if(ss){ss.textContent='✗ Offline';ss.className='admin-sync-status';}
+  }
 }
 async function loadFromSheets(){
   if(!SHEETS_URL) return null;
@@ -965,9 +1047,11 @@ async function loadFromSheets(){
   }catch(e){console.warn('Sheets load failed',e);return null;}
 }
 function generateId(prods){
-  const nums = prods.map(p=>parseInt(p.id.replace('IH',''))||0);
-  const max = nums.length ? Math.max(...nums) : 0;
-  return 'IH'+String(max+1).padStart(3,'0');
+  let id;
+  const existing = new Set(prods.map(p=>p.id));
+  do { id = String(Math.floor(100000000 + Math.random()*900000000)); }
+  while(existing.has(id));
+  return id;
 }
 
 let products = loadProducts();
@@ -976,11 +1060,11 @@ let currentFilter = 'all';
 // ════════════════════════════════════════
 //  ADMIN URL DETECTION
 // ════════════════════════════════════════
-const ADMIN_SECRET = 'ivoryhome2024';
+
 
 function checkAdminMode(){
   const params = new URLSearchParams(window.location.search);
-  if(params.get('admin') === ADMIN_SECRET){
+  if(params.get('admin') === 'true'){
     enterAdmin();
   }
 }
@@ -1015,37 +1099,68 @@ function getBg(cat,i){
   return arr[i%arr.length];
 }
 
+let heroRotateIndex = 0;
+let heroRotateTimer = null;
+
 function renderHero(){
-  const featured = products.filter(p=>p.featured);
+  const fixedProduct = products.find(p=>p.featured);
+  const allProducts = products.filter(p=>p.img);
   const heroGrid = document.getElementById('hero-grid');
   heroGrid.innerHTML = '';
+  if(heroRotateTimer){ clearInterval(heroRotateTimer); heroRotateTimer=null; }
 
-  // If exactly 4 featured → no images, just show placeholder aesthetic cells
-  if(featured.length >= 4){
-    heroGrid.innerHTML = `
-      <div class="hero-img-cell"><div class="hero-img-emoji">🏺</div></div>
-      <div class="hero-img-cell" style="margin-top:24px"><div class="hero-img-emoji">🕯️</div></div>
-      <div class="hero-img-cell" style="margin-top:-24px"><div class="hero-img-emoji">🪞</div></div>
-      <div class="hero-img-cell"><div class="hero-img-emoji">✦</div></div>
-    `;
-    return;
-  }
-
-  // Show featured product images + fill remaining with placeholders
   const offsets = ['','margin-top:24px','margin-top:-24px',''];
-  for(let i=0;i<4;i++){
-    const p = featured[i];
+
+  function makeCell(p, idx){
     const cell = document.createElement('div');
     cell.className='hero-img-cell';
-    cell.style.cssText = offsets[i];
+    cell.style.cssText = offsets[idx];
     if(p && p.img){
-      cell.innerHTML=`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`;
-    } else if(p){
-      cell.innerHTML=`<div class="hero-img-emoji">🏺</div>`;
+      cell.innerHTML=`<img src="${p.img}" alt="${p.name}" loading="lazy" style="transition:opacity .5s"/>`;
     } else {
       cell.innerHTML=`<div class="hero-img-emoji" style="font-size:24px;opacity:.15">✦</div>`;
     }
-    heroGrid.appendChild(cell);
+    return cell;
+  }
+
+  // Slot 0: fixed featured product (or any if none featured)
+  heroGrid.appendChild(makeCell(fixedProduct || (allProducts[0]||null), 0));
+
+  // Slots 1,2,3: rotating — pick 3 different products excluding fixed
+  const pool = allProducts.filter(p=> !fixedProduct || p.id !== fixedProduct.id);
+
+  function getRotatingSlots(){
+    if(pool.length === 0) return [null, null, null];
+    const start = heroRotateIndex % Math.max(pool.length, 1);
+    return [
+      pool[start % pool.length] || null,
+      pool[(start+1) % pool.length] || null,
+      pool[(start+2) % pool.length] || null,
+    ];
+  }
+
+  function updateRotatingCells(){
+    const slots = getRotatingSlots();
+    [1,2,3].forEach((slotIdx,i)=>{
+      const existing = heroGrid.children[slotIdx];
+      const p = slots[i];
+      if(existing && p && p.img){
+        const img = existing.querySelector('img');
+        if(img){ img.style.opacity='0'; setTimeout(()=>{ img.src=p.img; img.alt=p.name; img.style.opacity='1'; },300); }
+        else { existing.innerHTML=`<img src="${p.img}" alt="${p.name}" loading="lazy" style="transition:opacity .5s"/>`; }
+      }
+    });
+    heroRotateIndex++;
+  }
+
+  // Build initial 3 rotating slots
+  const initialSlots = getRotatingSlots();
+  heroRotateIndex++;
+  [1,2,3].forEach((_, i) => heroGrid.appendChild(makeCell(initialSlots[i], i+1)));
+
+  // Start rotation only if enough products
+  if(pool.length > 3){
+    heroRotateTimer = setInterval(updateRotatingCells, 3000);
   }
 }
 
@@ -1122,14 +1237,13 @@ function renderAdminList(){
         <div class="product-row-meta">
           <span class="product-row-cat">${CAT_LABELS[p.cat]||p.cat}</span>
           <span class="product-row-id">${p.id}</span>
-          ${p.featured?`<span class="featured-badge-small">★ Featured</span>`:''}
+          ${p.featured?`<span class="featured-star">★</span>`:''}
         </div>
       </div>
       <div class="product-row-actions">
-        <button class="btn-icon copy-btn" title="ID Copy karo" onclick="copyId('${p.id}')">📋</button>
-        <a class="pin-link-btn" href="${p.link}" target="_blank" rel="noopener" title="Amazon link">↗ Link</a>
-        <button class="btn-icon edit-btn" title="Edit" onclick="openEditModal('${p.id}')">✏️</button>
-        <button class="btn-icon delete-btn" title="Delete" onclick="deleteProduct('${p.id}')">✕</button>
+        <button class="btn-icon copy-btn" title="Product URL copy karo" onclick="copyId('${p.id}')">🔗</button>
+        <button class="btn-icon edit-btn" title="Edit karo" onclick="openEditModal('${p.id}')">✏️</button>
+        <button class="btn-icon delete-btn" title="Delete karo" onclick="deleteProduct('${p.id}')">🗑️</button>
       </div>
     `;
     list.appendChild(row);
@@ -1139,11 +1253,18 @@ function renderAdminList(){
   const fc = products.filter(p=>p.featured).length;
   document.getElementById('total-count').textContent=products.length;
   document.getElementById('featured-count-stat').textContent=fc;
+  const countLabel = document.getElementById('products-count-label');
+  if(countLabel) countLabel.textContent = filtered.length + ' product' + (filtered.length!==1?'s':'') + ' found';
 }
 
 function updateFeaturedCounter(){
   const fc = products.filter(p=>p.featured).length;
-  document.getElementById('featured-count').textContent=fc;
+  const el = document.getElementById('featured-count');
+  if(el) el.textContent=fc;
+  [0,1,2,3].forEach(i=>{
+    const pill = document.getElementById('fp'+i);
+    if(pill) pill.className = 'featured-pill' + (i<fc?' filled':'');
+  });
 }
 
 // ════════════════════════════════════════
@@ -1151,13 +1272,13 @@ function updateFeaturedCounter(){
 // ════════════════════════════════════════
 function submitProduct(){
   const name = document.getElementById('f-name').value.trim();
-  const link = document.getElementById('f-link').value.trim();
+  const link = '';
   const cat  = document.getElementById('f-cat').value;
   const img  = document.getElementById('f-img').value.trim();
   const badge= document.getElementById('f-badge').value.trim();
   const featured = document.getElementById('f-featured').checked;
 
-  if(!name||!link){showToast('⚠ Name aur link required hai');return;}
+  if(!name){showToast('⚠ Product name required hai');return;}
 
   const fc = products.filter(p=>p.featured).length;
   if(featured && fc>=4){showToast('⚠ Max 4 products hi featured ho sakte hain');return;}
@@ -1174,7 +1295,6 @@ function submitProduct(){
 
 function clearForm(){
   document.getElementById('f-name').value='';
-  document.getElementById('f-link').value='';
   document.getElementById('f-img').value='';
   document.getElementById('f-badge').value='';
   document.getElementById('f-featured').checked=false;
@@ -1214,7 +1334,7 @@ function saveEdit(){
   products[idx]={
     ...products[idx],
     name:document.getElementById('m-name').value.trim(),
-    link:document.getElementById('m-link').value.trim(),
+
     cat:document.getElementById('m-cat').value,
     img:document.getElementById('m-img').value.trim(),
     badge:document.getElementById('m-badge').value.trim(),
@@ -1245,17 +1365,17 @@ function deleteProduct(id){
 //  COPY ID
 // ════════════════════════════════════════
 function copyId(id){
-  navigator.clipboard.writeText(id).then(()=>{
-    showToast('✓ Copied: '+id);
+  const url = 'https://ivoryhomeco.vercel.app/?p='+id;
+  navigator.clipboard.writeText(url).then(()=>{
+    showToast('✓ URL Copied!');
   }).catch(()=>{
-    // Fallback
     const el=document.createElement('textarea');
-    el.value=id;
+    el.value=url;
     document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-    showToast('✓ Copied: '+id);
+    showToast('✓ URL Copied!');
   });
 }
 

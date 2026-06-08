@@ -379,7 +379,8 @@ footer{background:var(--white);border-top:.5px solid var(--warm-border);padding:
 }
 .apc-vis-badge.live{background:rgba(74,222,128,.12);color:#4ade80;border:.5px solid rgba(74,222,128,.2)}
 .apc-vis-badge.hidden{background:rgba(248,113,113,.10);color:#f87171;border:.5px solid rgba(248,113,113,.2)}
-.apc-vis-badge.scheduled{background:rgba(251,191,36,.10);color:#fbbf24;border:.5px solid rgba(251,191,36,.2)}position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1714;border:.5px solid #c49055;color:#d4cdc4;font-size:12px;letter-spacing:.06em;padding:10px 20px;border-radius:3px;z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap}
+.apc-vis-badge.scheduled{background:rgba(251,191,36,.10);color:#fbbf24;border:.5px solid rgba(251,191,36,.2)}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1714;border:.5px solid #c49055;color:#d4cdc4;font-size:12px;letter-spacing:.06em;padding:10px 20px;border-radius:3px;z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
@@ -1020,6 +1021,7 @@ function onVisChange(){
   document.getElementById('vtc-main-hint').textContent=on?'Visible to public':'Off = hidden from public';
 }
 
+function toggleFeaturedCard(){
   const cb=document.getElementById('f-featured');
   cb.checked=!cb.checked;
   onFeaturedChange();

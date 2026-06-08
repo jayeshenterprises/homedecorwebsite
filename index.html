@@ -694,7 +694,8 @@ function saveProducts(prods){
 async function syncToSheets(prods){
   setSyncStatus('syncing');
   try{
-    const r=await fetch(SHEETS_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save_all',products:prods})});
+    const payload=encodeURIComponent(JSON.stringify({action:'save_all',products:prods}));
+    const r=await fetch(SHEETS_URL+'?data='+payload+'&t='+Date.now(),{redirect:'follow'});
     const d=await r.json();
     setSyncStatus(d&&d.status==='ok'?'ok':'err');
   }catch(e){setSyncStatus('err');}

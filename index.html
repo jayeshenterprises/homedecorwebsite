@@ -118,23 +118,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.97);backdrop-
 .product-detail-id{font-size:11px;color:var(--text-light);font-family:'DM Mono',monospace;margin-bottom:24px;letter-spacing:.06em}
 .product-detail-divider{width:40px;height:.5px;background:var(--warm-border);margin-bottom:24px}
 .product-detail-desc{font-size:14px;color:var(--text-mid);line-height:1.85;margin-bottom:32px}
-.pd-copy-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
-.pd-copy-box{
-  background:var(--cream);border:.5px solid var(--warm-border);border-radius:3px;
-  padding:12px 14px;display:flex;flex-direction:column;gap:6px;
-}
-.pd-copy-label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
-.pd-copy-value{font-size:11px;color:var(--text-mid);font-family:'DM Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pd-copy-btn{
-  align-self:flex-start;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text-dark);background:var(--white);border:.5px solid var(--warm-border);
-  border-radius:2px;padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;
-  transition:all .18s;font-weight:500;margin-top:2px;
-}
-.pd-copy-btn:hover{background:var(--text-dark);color:var(--white);border-color:var(--text-dark)}
+.pd-shop-wrap{margin-bottom:8px}
 .product-detail-amz{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:var(--text-dark);color:var(--white);font-size:12px;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;text-decoration:none;transition:background .18s;font-weight:500}
 .product-detail-amz:hover{background:#3a3835}
-.product-detail-amz svg{width:18px;height:18px;fill:var(--white)}
 
 /* ABOUT */
 .about-page{max-width:720px;margin:0 auto;padding:64px 32px 80px}
@@ -375,8 +361,25 @@ footer{background:var(--white);border-top:.5px solid var(--warm-border);padding:
 .modal-close{background:transparent;border:.5px solid #252220;color:#5a5248;width:28px;height:28px;border-radius:3px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .18s}
 .modal-close:hover{color:#f0ebe3;border-color:#4a4540}
 
-/* TOAST */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1714;border:.5px solid #c49055;color:#d4cdc4;font-size:12px;letter-spacing:.06em;padding:10px 20px;border-radius:3px;z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap}
+/* VISIBLE / SCHEDULE */
+.vis-toggle-card{
+  background:#141210;border:.5px solid #252220;border-radius:3px;
+  padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  transition:border-color .2s;cursor:pointer;margin-bottom:10px;
+}
+.vis-toggle-card.on{border-color:rgba(74,222,128,.3);background:#0f1410}
+.vis-toggle-card .toggle-label-main small{color:#3d3830}
+.vis-toggle-card.on .toggle-label-main small{color:#4ade80}
+.toggle-sw input:checked+.toggle-track{background:linear-gradient(90deg,#4ade80,#22c55e)}
+.vis-schedule-row{margin-top:6px;display:flex;flex-direction:column;gap:4px}
+.form-input[type=datetime-local]{color-scheme:dark}
+.apc-vis-badge{
+  display:inline-flex;align-items:center;gap:4px;font-size:9px;letter-spacing:.08em;
+  text-transform:uppercase;padding:2px 7px;border-radius:2px;margin-bottom:6px;
+}
+.apc-vis-badge.live{background:rgba(74,222,128,.12);color:#4ade80;border:.5px solid rgba(74,222,128,.2)}
+.apc-vis-badge.hidden{background:rgba(248,113,113,.10);color:#f87171;border:.5px solid rgba(248,113,113,.2)}
+.apc-vis-badge.scheduled{background:rgba(251,191,36,.10);color:#fbbf24;border:.5px solid rgba(251,191,36,.2)}position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1714;border:.5px solid #c49055;color:#d4cdc4;font-size:12px;letter-spacing:.06em;padding:10px 20px;border-radius:3px;z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
@@ -538,8 +541,8 @@ footer{background:var(--white);border-top:.5px solid var(--warm-border);padding:
           <input class="form-input" id="f-name" type="text" placeholder="e.g. Ivory Ceramic Vase"/>
         </div>
         <div class="form-group">
-          <label class="form-label">Amazon Affiliate Link</label>
-          <input class="form-input" id="f-link" type="text" placeholder="https://amzn.to/..."/>
+          <label class="form-label">Shop Link (Affiliate)</label>
+          <input class="form-input" id="f-link" type="text" placeholder="https://..."/>
         </div>
         <div class="form-group">
           <label class="form-label">Category</label>
@@ -559,11 +562,29 @@ footer{background:var(--white);border-top:.5px solid var(--warm-border);padding:
           <input class="form-input" id="f-badge" type="text" placeholder="New / Sale / XL"/>
         </div>
         <div class="form-group">
+          <label class="form-label">Visibility</label>
+          <div class="vis-toggle-card" id="vtc-main" onclick="toggleVisCard()">
+            <div class="toggle-label-main">
+              Website par visible karo
+              <small id="vtc-main-hint">Off = hidden from public</small>
+            </div>
+            <label class="toggle-sw" onclick="event.stopPropagation()">
+              <input type="checkbox" id="f-visible" onchange="onVisChange()"/>
+              <div class="toggle-track"></div>
+            </label>
+          </div>
+          <div class="vis-schedule-row" id="vis-schedule-wrap" style="display:none">
+            <label class="form-label" style="margin-bottom:4px">Schedule — Kab se dikhna hai?</label>
+            <input class="form-input" id="f-visibleFrom" type="datetime-local"/>
+            <div style="font-size:10px;color:#3d3830;margin-top:3px;letter-spacing:.04em">Blank = abhi se visible</div>
+          </div>
+        </div>
+        <div class="form-group">
           <label class="form-label">Hero Featured?</label>
           <div class="featured-toggle-card" id="ftc-main" onclick="toggleFeaturedCard()">
             <div class="toggle-label-main">
               Hero mein fix karo
-              <small>Max 1 fix, baaki rotate honge</small>
+              <small>Max 4 fix, baaki rotate honge</small>
             </div>
             <label class="toggle-sw" onclick="event.stopPropagation()">
               <input type="checkbox" id="f-featured" onchange="onFeaturedChange()"/>
@@ -620,14 +641,25 @@ footer{background:var(--white);border-top:.5px solid var(--warm-border);padding:
     </div>
     <input type="hidden" id="modal-edit-id"/>
     <div class="form-group"><label class="form-label">Product Name <span class="form-label-req">*</span></label><input class="form-input" id="m-name" type="text"/></div>
-    <div class="form-group"><label class="form-label">Amazon Affiliate Link</label><input class="form-input" id="m-link" type="text"/></div>
+    <div class="form-group"><label class="form-label">Shop Link (Affiliate)</label><input class="form-input" id="m-link" type="text"/></div>
     <div class="form-group"><label class="form-label">Category</label><select class="form-select" id="m-cat"><option value="vases">Vases</option><option value="candles">Candles</option><option value="mirrors">Mirrors</option><option value="decor">Decor Objects</option></select></div>
     <div class="form-group"><label class="form-label">Image URL</label><input class="form-input" id="m-img" type="text"/></div>
     <div class="form-group"><label class="form-label">Badge (Optional)</label><input class="form-input" id="m-badge" type="text"/></div>
+    <div class="form-group"><label class="form-label">Visibility</label>
+      <div class="vis-toggle-card" id="vtc-modal">
+        <div class="toggle-label-main">Website par visible karo<small>Off = hidden from public</small></div>
+        <label class="toggle-sw"><input type="checkbox" id="m-visible"/><div class="toggle-track"></div></label>
+      </div>
+      <div class="vis-schedule-row" style="margin-top:6px">
+        <label class="form-label" style="margin-bottom:4px">Schedule — Kab se dikhna hai?</label>
+        <input class="form-input" id="m-visibleFrom" type="datetime-local"/>
+        <div style="font-size:10px;color:#3d3830;margin-top:3px;letter-spacing:.04em">Blank = abhi se visible</div>
+      </div>
+    </div>
     <div class="form-group">
       <label class="form-label">Hero Featured?</label>
       <div class="featured-toggle-card" id="ftc-modal">
-        <div class="toggle-label-main">Hero mein fix karo<small>Max 1 fix allowed</small></div>
+        <div class="toggle-label-main">Hero mein fix karo<small>Max 4 fix allowed</small></div>
         <label class="toggle-sw"><input type="checkbox" id="m-featured"/><div class="toggle-track"></div></label>
       </div>
     </div>
@@ -661,22 +693,22 @@ function saveProducts(prods){
 async function syncToSheets(prods){
   setSyncStatus('syncing');
   try{
-    const r = await fetch(SHEETS_URL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({action:'save_all', products: prods})
-    });
-    const d = await r.json();
-    if(d.status === 'ok') setSyncStatus('ok');
-    else setSyncStatus('err');
-  } catch(e) { setSyncStatus('err'); }
+    const r=await fetch(SHEETS_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save_all',products:prods})});
+    const d=await r.json();
+    setSyncStatus(d&&d.status==='ok'?'ok':'err');
+  }catch(e){setSyncStatus('err');}
 }
 async function loadFromSheets(){
   if(!SHEETS_URL)return null;
   try{
     const r=await fetch(SHEETS_URL+'?t='+Date.now());
     const d=await r.json();
-    if(Array.isArray(d)&&d.length){localStorage.setItem('ih_products',JSON.stringify(d));return d;}
+    if(Array.isArray(d)&&d.length){
+      // Normalize: old products without 'visible' field default to true
+      const normalized=d.map(p=>({...p,visible:p.visible===undefined?true:p.visible===true||p.visible==='true'}));
+      localStorage.setItem('ih_products',JSON.stringify(normalized));
+      return normalized;
+    }
     return null;
   }catch(e){return null;}
 }
@@ -728,12 +760,16 @@ function renderHero(){
   clearInterval(heroRotateTimer);
   const grid=document.getElementById('hero-grid');
   if(!grid)return;
-  const fixedProd=products.find(p=>p.featured);
-  const pool=products.filter(p=>!p.featured);
+  const fixed=products.filter(p=>p.featured&&p.visible!==false);
+  const pool=products.filter(p=>!p.featured&&p.visible!==false);
 
-  // Build 4 slots: slot0 = fixed or first from pool, slots 1-3 rotate
-  let rotatePool=[...pool];
-  let rotateIdx=[0,1,2]; // indices into rotatePool for slots 1,2,3
+  // Up to 4 fixed slots; remaining slots rotate from pool
+  // If fixed < 4, remaining slots rotate from pool
+  const fixedSlots=fixed.slice(0,4);
+  const numFixed=fixedSlots.length;
+  const numRotate=4-numFixed;
+
+  let rotateIdx=Array.from({length:numRotate},(_,i)=>i);
 
   function buildCell(p,offset){
     const cell=document.createElement('div');
@@ -748,23 +784,23 @@ function renderHero(){
   function drawHero(){
     grid.innerHTML='';
     const offsets=['','24px','-24px',''];
-    // Slot 0: fixed product or first from pool
-    const s0=fixedProd||(rotatePool[rotateIdx[0]]||null);
-    grid.appendChild(buildCell(s0,offsets[0]));
-    // Slots 1-3
-    for(let i=0;i<3;i++){
-      const p=rotatePool.length>rotateIdx[i]?rotatePool[rotateIdx[i]]:null;
-      grid.appendChild(buildCell(p,offsets[i+1]));
+    // Fixed slots first
+    for(let i=0;i<numFixed;i++){
+      grid.appendChild(buildCell(fixedSlots[i],offsets[i]));
+    }
+    // Rotate slots
+    for(let i=0;i<numRotate;i++){
+      const p=pool.length>0?pool[rotateIdx[i]%pool.length]:null;
+      grid.appendChild(buildCell(p,offsets[numFixed+i]));
     }
   }
 
   drawHero();
 
-  if(rotatePool.length>1){
+  if(pool.length>1&&numRotate>0){
     heroRotateTimer=setInterval(()=>{
-      // Advance indices (skip slot0 if fixed, rotate slots 1-3)
-      for(let i=0;i<3;i++){
-        rotateIdx[i]=(rotateIdx[i]+1)%rotatePool.length;
+      for(let i=0;i<numRotate;i++){
+        rotateIdx[i]=(rotateIdx[i]+1)%pool.length;
       }
       drawHero();
     },4000);
@@ -772,12 +808,25 @@ function renderHero(){
 }
 
 // ═══════════════════════
+//  VISIBILITY HELPER
+// ═══════════════════════
+function isVisible(p){
+  if(!p.visible)return false;
+  if(p.visibleFrom){
+    const t=new Date(p.visibleFrom);
+    if(isNaN(t.getTime()))return true;
+    return new Date()>=t;
+  }
+  return true;
+}
+
+// ═══════════════════════
 //  FEATURED SECTION
 // ═══════════════════════
 function renderFeatured(){
-  const fixed=products.filter(p=>p.featured);
-  const rest=products.filter(p=>!p.featured);
-  // Show up to 4: featured first, then rest
+  const visProds=products.filter(isVisible);
+  const fixed=visProds.filter(p=>p.featured);
+  const rest=visProds.filter(p=>!p.featured);
   const show=[...fixed,...rest].slice(0,4);
   const grid=document.getElementById('featured-grid');
   if(!grid)return;
@@ -810,7 +859,8 @@ function renderShop(cat='all'){
   const grid=document.getElementById('shop-grid');
   if(!grid)return;
   grid.innerHTML='';
-  const list=cat==='all'?products:products.filter(p=>p.cat===cat);
+  const visProds=products.filter(isVisible);
+  const list=cat==='all'?visProds:visProds.filter(p=>p.cat===cat);
   list.forEach((p,i)=>{
     const card=document.createElement('div');
     card.className='prod-card';
@@ -849,22 +899,10 @@ function openProductPage(p){
       <div class="product-detail-cat">${CAT_LABELS[p.cat]||p.cat}</div>
       <h1 class="product-detail-name">${p.name}</h1>
       <div class="product-detail-divider"></div>
-      <p class="product-detail-desc">A carefully curated pick for your home — click below to view on Amazon and check current pricing.</p>
-      <div class="pd-copy-row">
-        <div class="pd-copy-box">
-          <div class="pd-copy-label">Product URL</div>
-          <div class="pd-copy-value">${url}</div>
-          <button class="pd-copy-btn" onclick="copyText('${url}','✓ URL Copied!')">Copy</button>
-        </div>
-        <div class="pd-copy-box">
-          <div class="pd-copy-label">Product ID</div>
-          <div class="pd-copy-value">${p.id}</div>
-          <button class="pd-copy-btn" onclick="copyText('${p.id}','✓ ID Copied!')">Copy</button>
-        </div>
+      <p class="product-detail-desc">A carefully curated pick for your home — click below to check current pricing and availability.</p>
+      <div class="pd-shop-wrap">
+        ${p.link?`<a class="product-detail-amz" href="${p.link}" target="_blank" rel="noopener" style="font-size:15px;padding:16px;letter-spacing:.06em;">🛍️ Shop This Pick</a>`:'<div style="font-size:13px;color:var(--text-light);text-align:center;padding:14px;border:.5px solid var(--warm-border);border-radius:2px;">Link coming soon</div>'}
       </div>
-      ${p.link?`<a class="product-detail-amz" href="${p.link}" target="_blank" rel="noopener">
-        🛍️ Shop
-      </a>`:'<div style="font-size:13px;color:var(--text-light);text-align:center;padding:14px;border:.5px solid var(--warm-border);border-radius:2px;">No Amazon link added yet</div>'}
     </div>`;
 
   showPage('product');
@@ -986,10 +1024,12 @@ function submitProduct(){
   const img=document.getElementById('f-img').value.trim();
   const badge=document.getElementById('f-badge').value.trim();
   const featured=document.getElementById('f-featured').checked;
+  const visible=document.getElementById('f-visible').checked;
+  const visibleFrom=document.getElementById('f-visibleFrom').value||'';
   if(!name){showToast('⚠ Product name required');return;}
   const fc=products.filter(p=>p.featured).length;
-  if(featured&&fc>=1){showToast('⚠ Sirf 1 product fix ho sakta hai hero mein');return;}
-  const newP={id:generateId(products),name,cat,link,img,badge,featured};
+  if(featured&&fc>=4){showToast('⚠ Max 4 products fix ho sakte hain hero mein');return;}
+  const newP={id:generateId(products),name,cat,link,img,badge,featured,visible,visibleFrom};
   products.push(newP);
   saveProducts(products);
   renderAdminGrid();
@@ -999,12 +1039,27 @@ function submitProduct(){
   showToast('✓ Product added — '+newP.id);
 }
 function clearForm(){
-  ['f-name','f-link','f-img','f-badge'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['f-name','f-link','f-img','f-badge','f-visibleFrom'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('f-cat').value='vases';
   document.getElementById('f-featured').checked=false;
   document.getElementById('ftc-main').classList.remove('on');
+  document.getElementById('f-visible').checked=false;
+  document.getElementById('vtc-main').classList.remove('on');
+  document.getElementById('vis-schedule-wrap').style.display='none';
+  document.getElementById('vtc-main-hint').textContent='Off = hidden from public';
 }
-function toggleFeaturedCard(){
+function toggleVisCard(){
+  const cb=document.getElementById('f-visible');
+  cb.checked=!cb.checked;
+  onVisChange();
+}
+function onVisChange(){
+  const on=document.getElementById('f-visible').checked;
+  document.getElementById('vtc-main').className='vis-toggle-card'+(on?' on':'');
+  document.getElementById('vis-schedule-wrap').style.display=on?'flex':'none';
+  document.getElementById('vtc-main-hint').textContent=on?'Visible to public':'Off = hidden from public';
+}
+
   const cb=document.getElementById('f-featured');
   cb.checked=!cb.checked;
   onFeaturedChange();
@@ -1032,6 +1087,8 @@ function openEditModal(id){
   document.getElementById('m-img').value=p.img||'';
   document.getElementById('m-badge').value=p.badge||'';
   document.getElementById('m-featured').checked=p.featured||false;
+  document.getElementById('m-visible').checked=p.visible||false;
+  document.getElementById('m-visibleFrom').value=p.visibleFrom||'';
   document.getElementById('edit-modal').classList.add('active');
 }
 function closeEditModal(){document.getElementById('edit-modal').classList.remove('active');}
@@ -1042,14 +1099,16 @@ function saveEdit(){
   const featured=document.getElementById('m-featured').checked;
   const wasFeatured=products[idx].featured;
   const fc=products.filter(p=>p.featured&&p.id!==id).length;
-  if(featured&&!wasFeatured&&fc>=1){showToast('⚠ Sirf 1 product fix allowed hai');return;}
+  if(featured&&!wasFeatured&&fc>=4){showToast('⚠ Max 4 products fix allowed hain');return;}
   products[idx]={...products[idx],
     name:document.getElementById('m-name').value.trim(),
     link:document.getElementById('m-link').value.trim(),
     cat:document.getElementById('m-cat').value,
     img:document.getElementById('m-img').value.trim(),
     badge:document.getElementById('m-badge').value.trim(),
-    featured
+    featured,
+    visible:document.getElementById('m-visible').checked,
+    visibleFrom:document.getElementById('m-visibleFrom').value||''
   };
   saveProducts(products);
   closeEditModal();
@@ -1130,6 +1189,8 @@ function renderAdminGrid(){
     card.className='admin-prod-card'+(p.featured?' is-featured':'');
     card.style.animationDelay=(i*0.04)+'s';
     const productUrl=SITE_URL+'/?p='+p.id;
+    const visStatus=!p.visible?'hidden':(p.visibleFrom&&new Date(p.visibleFrom)>new Date()?'scheduled':'live');
+    const visBadgeLabel=visStatus==='live'?'🟢 Live':visStatus==='scheduled'?'⏰ Scheduled':'🔴 Hidden';
     card.innerHTML=`
       <div class="apc-img">
         ${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`:'<div class="apc-img-placeholder">🏺</div>'}
@@ -1138,6 +1199,7 @@ function renderAdminGrid(){
       <div class="apc-body">
         <div class="apc-cat">${CAT_LABELS[p.cat]||p.cat}</div>
         <div class="apc-name" title="${p.name}">${p.name}</div>
+        <div style="margin-bottom:8px"><span class="apc-vis-badge ${visStatus}">${visBadgeLabel}${visStatus==='scheduled'?` · ${new Date(p.visibleFrom).toLocaleDateString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}`:''}</span></div>
         <div class="apc-id-row">
           <span class="apc-id">${p.id}</span>
           <button class="apc-id-copy" title="Copy Product ID" onclick="event.stopPropagation();copyText('${p.id}','✓ ID Copied: ${p.id}')">📋</button>

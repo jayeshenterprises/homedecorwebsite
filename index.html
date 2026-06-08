@@ -737,9 +737,20 @@ let heroRotateTimer=null;
 // ═══════════════════════
 //  URL ROUTING
 // ═══════════════════════
-function checkRoute(){
+async function checkRoute(){
   const params=new URLSearchParams(window.location.search);
+
+  // Admin portal — seedha enter karo
   if(params.get('admin')==='true'){enterAdmin();return;}
+
+  // Public site — pehle sheet se fresh data lo (naye device pe localStorage empty hoga)
+  if(SHEETS_URL){
+    const sheetsData=await loadFromSheets();
+    if(sheetsData&&sheetsData.length){
+      products=sheetsData;
+    }
+  }
+
   const pid=params.get('p');
   if(pid){
     const p=products.find(x=>x.id===pid);

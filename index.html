@@ -118,14 +118,20 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.97);backdrop-
 .product-detail-id{font-size:11px;color:var(--text-light);font-family:'DM Mono',monospace;margin-bottom:24px;letter-spacing:.06em}
 .product-detail-divider{width:40px;height:.5px;background:var(--warm-border);margin-bottom:24px}
 .product-detail-desc{font-size:14px;color:var(--text-mid);line-height:1.85;margin-bottom:32px}
-.product-detail-url{
+.pd-copy-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.pd-copy-box{
   background:var(--cream);border:.5px solid var(--warm-border);border-radius:3px;
-  padding:12px 14px;margin-bottom:24px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 14px;display:flex;flex-direction:column;gap:6px;
 }
-.product-detail-url-text{font-size:11px;color:var(--text-light);font-family:'DM Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.product-detail-url-copy{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:transparent;border:none;cursor:pointer;white-space:nowrap;font-weight:500;transition:color .18s}
-.product-detail-url-copy:hover{color:var(--text-dark)}
+.pd-copy-label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.pd-copy-value{font-size:11px;color:var(--text-mid);font-family:'DM Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pd-copy-btn{
+  align-self:flex-start;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dark);background:var(--white);border:.5px solid var(--warm-border);
+  border-radius:2px;padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .18s;font-weight:500;margin-top:2px;
+}
+.pd-copy-btn:hover{background:var(--text-dark);color:var(--white);border-color:var(--text-dark)}
 .product-detail-amz{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:var(--text-dark);color:var(--white);font-size:12px;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;text-decoration:none;transition:background .18s;font-weight:500}
 .product-detail-amz:hover{background:#3a3835}
 .product-detail-amz svg{width:18px;height:18px;fill:var(--white)}
@@ -836,20 +842,22 @@ function openProductPage(p){
     <div>
       <div class="product-detail-cat">${CAT_LABELS[p.cat]||p.cat}</div>
       <h1 class="product-detail-name">${p.name}</h1>
-      <div class="product-detail-id">ID: ${p.id}</div>
       <div class="product-detail-divider"></div>
       <p class="product-detail-desc">A carefully curated pick for your home — click below to view on Amazon and check current pricing.</p>
-      <div class="product-detail-url">
-        <span class="product-detail-url-text">${url}</span>
-        <button class="product-detail-url-copy" onclick="copyText('${url}','✓ URL Copied!')">Copy URL</button>
-      </div>
-      <div class="product-detail-url" style="margin-top:-10px">
-        <span class="product-detail-url-text" style="font-size:10px;letter-spacing:.06em">Product ID: ${p.id}</span>
-        <button class="product-detail-url-copy" onclick="copyText('${p.id}','✓ ID Copied!')">Copy ID</button>
+      <div class="pd-copy-row">
+        <div class="pd-copy-box">
+          <div class="pd-copy-label">Product URL</div>
+          <div class="pd-copy-value">${url}</div>
+          <button class="pd-copy-btn" onclick="copyText('${url}','✓ URL Copied!')">Copy</button>
+        </div>
+        <div class="pd-copy-box">
+          <div class="pd-copy-label">Product ID</div>
+          <div class="pd-copy-value">${p.id}</div>
+          <button class="pd-copy-btn" onclick="copyText('${p.id}','✓ ID Copied!')">Copy</button>
+        </div>
       </div>
       ${p.link?`<a class="product-detail-amz" href="${p.link}" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.439-2.186 1.439-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.684zm3.186 7.705c-.209.189-.512.201-.745.076-1.047-.872-1.234-1.276-1.814-2.106-1.733 1.769-2.96 2.298-5.208 2.298-2.658 0-4.73-1.642-4.73-4.927 0-2.565 1.391-4.309 3.37-5.164 1.715-.754 4.11-.887 5.942-1.094v-.41c0-.754.06-1.644-.383-2.294-.385-.579-1.124-.82-1.775-.82-1.205 0-2.277.618-2.54 1.897-.054.285-.261.567-.549.58l-3.064-.331c-.259-.059-.548-.266-.472-.66C5.77 1.997 8.64 1 11.219 1c1.317 0 3.038.351 4.078 1.347 1.317 1.229 1.191 2.869 1.191 4.654v4.215c0 1.267.525 1.824 1.02 2.508.174.244.212.535-.009.716l-2.355 2.355zM21.5 18.5c-2.955 2.185-7.239 3.349-10.928 3.349-5.169 0-9.821-1.91-13.338-5.089-.276-.249-.029-.589.302-.395 3.798 2.21 8.495 3.54 13.347 3.54 3.273 0 6.869-.678 10.182-2.083.501-.213.92.329.435.678z"/></svg>
-        View on Amazon
+        🛍️ Shop
       </a>`:'<div style="font-size:13px;color:var(--text-light);text-align:center;padding:14px;border:.5px solid var(--warm-border);border-radius:2px;">No Amazon link added yet</div>'}
     </div>`;
 

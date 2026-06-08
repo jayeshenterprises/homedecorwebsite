@@ -661,9 +661,15 @@ function saveProducts(prods){
 async function syncToSheets(prods){
   setSyncStatus('syncing');
   try{
-    await fetch(SHEETS_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save_all',products:prods}),mode:'no-cors'});
-    setSyncStatus('ok');
-  }catch(e){setSyncStatus('err');}
+    const r = await fetch(SHEETS_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({action:'save_all', products: prods})
+    });
+    const d = await r.json();
+    if(d.status === 'ok') setSyncStatus('ok');
+    else setSyncStatus('err');
+  } catch(e) { setSyncStatus('err'); }
 }
 async function loadFromSheets(){
   if(!SHEETS_URL)return null;

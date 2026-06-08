@@ -811,6 +811,9 @@ function renderHero(){
 //  VISIBILITY HELPER
 // ═══════════════════════
 function isVisible(p){
+  // Old products without 'visible' field → show by default
+  if(p.visible===false)return false;
+  if(p.visible===undefined||p.visible===null)return true;
   if(!p.visible)return false;
   if(p.visibleFrom){
     const t=new Date(p.visibleFrom);
@@ -961,49 +964,6 @@ async function enterAdmin(){
 // ═══════════════════════
 //  ADMIN GRID
 // ═══════════════════════
-function renderAdminGrid(){
-  const q=(document.getElementById('admin-search')||{value:''}).value.toLowerCase();
-  const grid=document.getElementById('admin-prod-grid');
-  const fc=products.filter(p=>p.featured).length;
-  document.getElementById('kpi-total').textContent=products.length;
-  document.getElementById('kpi-featured').textContent=fc;
-  const filtered=products.filter(p=>
-    p.name.toLowerCase().includes(q)||
-    p.id.toLowerCase().includes(q)||
-    (p.cat||'').toLowerCase().includes(q)
-  );
-  grid.innerHTML='';
-  if(!filtered.length){
-    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:48px;color:#2e2b27;font-size:12px;letter-spacing:.1em;text-transform:uppercase">No products found</div>';
-    return;
-  }
-  filtered.forEach((p,i)=>{
-    const card=document.createElement('div');
-    card.className='admin-prod-card'+(p.featured?' is-featured':'');
-    card.style.animationDelay=(i*0.04)+'s';
-    const productUrl=SITE_URL+'/?p='+p.id;
-    card.innerHTML=`
-      <div class="apc-img">
-        ${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`:'<div class="apc-img-placeholder">🏺</div>'}
-        ${p.featured?'<div class="apc-feat-ribbon">★ Fixed</div>':''}
-      </div>
-      <div class="apc-body">
-        <div class="apc-cat">${CAT_LABELS[p.cat]||p.cat}</div>
-        <div class="apc-name" title="${p.name}">${p.name}</div>
-        <div class="apc-id-row">
-          <span class="apc-id">${p.id}</span>
-          <button class="apc-id-copy" title="Copy Product ID" onclick="copyText('${p.id}','✓ ID Copied: ${p.id}')">📋</button>
-        </div>
-        <div class="apc-actions">
-          <button class="apc-btn copy" onclick="copyText('${productUrl}','✓ URL Copied!')">🔗 URL</button>
-          <button class="apc-btn edit" onclick="openEditModal('${p.id}')">✏ Edit</button>
-          <button class="apc-btn del" onclick="deleteProduct('${p.id}')">✕</button>
-        </div>
-      </div>`;
-    grid.appendChild(card);
-  });
-}
-
 function updateFeatDots(){
   const fc=products.filter(p=>p.featured).length;
   [0,1,2,3].forEach(i=>{
@@ -1164,8 +1124,9 @@ function adminFilterCat(cat,el){
   el.classList.add('active');
   renderAdminGrid();
 }
-// Override renderAdminGrid to respect cat filter
-const _origRenderAdminGrid = renderAdminGrid;
+// ═══════════════════════
+//  ADMIN GRID (with cat filter + visibility)
+// ═══════════════════════
 function renderAdminGrid(){
   const q=(document.getElementById('admin-search')||{value:''}).value.toLowerCase();
   const grid=document.getElementById('admin-prod-grid');

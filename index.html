@@ -1052,7 +1052,7 @@ function cancelEdit(){
 //  EDIT PRODUCT
 // ═══════════════════════
 function openEditModal(id){
-  const p=products.find(x=>x.id===id);
+  const p=products.find(x=>String(x.id)===String(id));
   if(!p)return;
   document.getElementById('modal-edit-id').value=id;
   document.getElementById('m-name').value=p.name;
@@ -1068,7 +1068,7 @@ function openEditModal(id){
 function closeEditModal(){document.getElementById('edit-modal').classList.remove('active');}
 function saveEdit(){
   const id=document.getElementById('modal-edit-id').value;
-  const idx=products.findIndex(x=>x.id===id);
+  const idx=products.findIndex(x=>String(x.id)===String(id));
   if(idx===-1)return;
   const featured=document.getElementById('m-featured').checked;
   const wasFeatured=products[idx].featured;
@@ -1098,7 +1098,7 @@ document.getElementById('edit-modal').addEventListener('click',function(e){if(e.
 // ═══════════════════════
 function deleteProduct(id){
   if(!confirm('Delete this product?'))return;
-  products=products.filter(p=>p.id!==id);
+  products=products.filter(p=>String(p.id)!==String(id));
   saveProducts(products);
   renderAdminGrid();
   updateFeatDots();
